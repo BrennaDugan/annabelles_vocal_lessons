@@ -813,11 +813,22 @@ function renderSchedule(){
 }
 
 // ── RUN ──────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
+function startApp() {
+  // re-read schedule fresh from localStorage at startup
+  var stored = localStorage.getItem('vp_schedule');
+  if (stored) {
+    try { schedule = JSON.parse(stored); } catch(e) {}
+  }
   init();
   renderSchedule();
   applyTodaysSongs();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}
 </script>
 </body>
 </html>
