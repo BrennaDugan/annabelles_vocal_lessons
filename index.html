@@ -724,7 +724,21 @@ function renderSongs(){
 }
 
 // ── SCHEDULE ─────────────────────────────────────────
-function saveSchedule(){ localStorage.setItem('vp_schedule',JSON.stringify(schedule)); }
+function saveSchedule() {
+  try {
+    var data = JSON.stringify(schedule);
+    localStorage.setItem('vp_schedule', data);
+    // verify it actually saved
+    var check = localStorage.getItem('vp_schedule');
+    if (!check) {
+      setTimeout(function() {
+        localStorage.setItem('vp_schedule', data);
+      }, 100);
+    }
+  } catch(e) {
+    console.warn('Schedule save failed:', e);
+  }
+}
 
 function toggleScheduleEdit() {
   if(!scheduleEditMode){
@@ -764,13 +778,13 @@ function renderSchedule(){
         +(isToday?'📍 ':'')+day+(isToday?' <span style="font-size:.72rem;background:var(--pink);color:#fff;border-radius:8px;padding:1px 8px;">Today</span>':'')
         +'</div>'
         +'<input style="'+inp+'" placeholder="🌟 Main Song" value="'+(s.main||'')
-        +'" oninput="schedule[\''+day+'\'].main=this.value;saveSchedule();" />'
+        +'" onblur="schedule[\''+day+'\'].main=this.value;saveSchedule();" />'
         +'<input style="'+inp+'" placeholder="🎤 Second Song" value="'+(s.second||'')
-        +'" oninput="schedule[\''+day+'\'].second=this.value;saveSchedule();" />'
+        +'" onblur="schedule[\''+day+'\'].second=this.value;saveSchedule();" />'
         +'<input style="'+inp+'" placeholder="📄 Main Song PDF or resource URL (optional)" value="'+(s.pdf||'')
-        +'" oninput="schedule[\''+day+'\'].pdf=this.value;saveSchedule();" />'
+        +'" onblur="schedule[\''+day+'\'].pdf=this.value;saveSchedule();" />'
         +'<input style="'+inp+'" placeholder="📄 Second Song PDF or resource URL (optional)" value="'+(s.pdf2||'')
-        +'" oninput="schedule[\''+day+'\'].pdf2=this.value;saveSchedule();" />'
+        +'" onblur="schedule[\''+day+'\'].pdf2=this.value;saveSchedule();" />'
         +'</div>';
     }).join('');
   } else {
