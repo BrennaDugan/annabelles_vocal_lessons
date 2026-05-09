@@ -553,9 +553,15 @@ function updateSongSelect() {
     + '<option value="Main Song" data-minutes="15">🌟 Main Song — 15 min</option>'
     + '<option value="Second Song" data-minutes="15">🎤 Second Song — 15 min</option>'
     + '<option value="Cool Down and Reflection" data-minutes="5">💫 Cool Down & Reflect — 5 min</option>';
+  var fixedValues = ['Free Practice','Warm-Up Exercises','Breathing Technique Practice','Main Song','Second Song','Cool Down and Reflection'];
   tasks.forEach(function(t){
+    var clean = t.label.replace(/^[^\w]*/,'').trim();
+    var isDupe = fixedValues.some(function(f){
+      return t.label.toLowerCase().includes(f.toLowerCase());
+    });
+    if (isDupe) return;
     var o = document.createElement('option'); o.value = t.label; o.textContent = t.label; sel.appendChild(o);
-  });
+  });;
   songs.forEach(function(s){
     if (tasks.some(function(t){ return t.label.toLowerCase().includes(s.title.toLowerCase()); })) return;
     var o = document.createElement('option'); o.value = s.title; o.textContent = '🎵 ' + s.title; sel.appendChild(o);
