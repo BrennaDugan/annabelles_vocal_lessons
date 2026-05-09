@@ -795,8 +795,11 @@ function renderSchedule() {
         + 'oninput="schedule[\'' + day + '\'].second=this.value;saveSchedule();" />'
         + '</div>'
 + '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-+ 'placeholder="🔗 PDF or resource URL (optional)" value="' + (s.pdf||'') + '" '
++ 'placeholder="📄 Main Song PDF or resource URL (optional)" value="' + (s.pdf||'') + '" '
 + 'oninput="schedule[\'' + day + '\'].pdf=this.value;saveSchedule();" />'
++ '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
++ 'placeholder="📄 Second Song PDF or resource URL (optional)" value="' + (s.pdf2||'') + '" '
++ 'oninput="schedule[\'' + day + '\'].pdf2=this.value;saveSchedule();" />'
 + '</div>';
     } else {
       const hasMain   = s.main   && s.main.trim();
@@ -812,8 +815,10 @@ function renderSchedule() {
         + '<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px;">'
         + '<div style="font-size:.87rem;font-weight:600;color:' + (hasMain ? 'var(--text)' : '#ccc') + ';">🌟 Main Song: ' + (hasMain ? '<strong>' + s.main + '</strong>' : '<em>not set</em>') + '</div>'
         + '<div style="font-size:.87rem;font-weight:600;color:' + (hasSecond ? 'var(--text)' : '#ccc') + ';">🎤 Second Song: ' + (hasSecond ? '<strong>' + s.second + '</strong>' : '<em>not set</em>') + '</div>'
-        + (s.pdf && s.pdf.trim() ? '<div style="margin-top:7px;"><a href="' + s.pdf + '" target="_blank" rel="noopener" style="font-size:.82rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 12px;border:1.5px solid var(--pink-lt);">📄 Open Resource PDF</a></div>' : '')
-        + '</div></div>';
+        + ((s.pdf && s.pdf.trim()) || (s.pdf2 && s.pdf2.trim()) ? '<div style="margin-top:7px;display:flex;gap:8px;flex-wrap:wrap;">'
++ (s.pdf  && s.pdf.trim()  ? '<a href="' + s.pdf  + '" target="_blank" rel="noopener" style="font-size:.82rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 12px;border:1.5px solid var(--pink-lt);">📄 Main Song PDF</a>' : '')
++ (s.pdf2 && s.pdf2.trim() ? '<a href="' + s.pdf2 + '" target="_blank" rel="noopener" style="font-size:.82rem;font-weight:700;color:var(--lavender);text-decoration:none;background:#f3eeff;border-radius:8px;padding:3px 12px;border:1.5px solid var(--lavender);">📄 Second Song PDF</a>' : '')
++ '</div>' : '')
     }
   }).join('');
 }
