@@ -402,7 +402,7 @@ let timerInterval = null, timerRunning = false, timerDone = false;
 
 // ── SCHEDULE STATE ───────────────────────────────────
 const DAYS_OF_WEEK = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-let schedule = JSON.parse(localStorage.getItem('vp_schedule')) || {
+let schedule = {
   Monday:{main:'',second:'',pdf:'',pdf2:''},Tuesday:{main:'',second:'',pdf:'',pdf2:''},
   Wednesday:{main:'',second:'',pdf:'',pdf2:''},Thursday:{main:'',second:'',pdf:'',pdf2:''},
   Friday:{main:'',second:'',pdf:'',pdf2:''},Saturday:{main:'',second:'',pdf:'',pdf2:''},
@@ -814,10 +814,17 @@ function renderSchedule(){
 
 // ── RUN ──────────────────────────────────────────────
 function startApp() {
-  // re-read schedule fresh from localStorage at startup
   var stored = localStorage.getItem('vp_schedule');
   if (stored) {
-    try { schedule = JSON.parse(stored); } catch(e) {}
+    try {
+      var parsed = JSON.parse(stored);
+      // merge so any missing days still get defaults
+      DAYS_OF_WEEK.forEach(function(day) {
+        if (parsed[day]) {
+          schedule[day] = Object.assign({main:'',second:'',pdf:'',pdf2:''}, parsed[day]);
+        }
+      });
+    } catch(e) {}
   }
   init();
   renderSchedule();
