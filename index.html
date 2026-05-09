@@ -793,7 +793,11 @@ function renderSchedule() {
         + '<input style="flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
         + 'placeholder="🎤 Second Song" value="' + (s.second||'') + '" '
         + 'oninput="schedule[\'' + day + '\'].second=this.value;saveSchedule();" />'
-        + '</div></div>';
+        + '</div>'
++ '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
++ 'placeholder="🔗 PDF or resource URL (optional)" value="' + (s.pdf||'') + '" '
++ 'oninput="schedule[\'' + day + '\'].pdf=this.value;saveSchedule();" />'
++ '</div>';
     } else {
       const hasMain   = s.main   && s.main.trim();
       const hasSecond = s.second && s.second.trim();
@@ -808,6 +812,7 @@ function renderSchedule() {
         + '<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px;">'
         + '<div style="font-size:.87rem;font-weight:600;color:' + (hasMain ? 'var(--text)' : '#ccc') + ';">🌟 Main Song: ' + (hasMain ? '<strong>' + s.main + '</strong>' : '<em>not set</em>') + '</div>'
         + '<div style="font-size:.87rem;font-weight:600;color:' + (hasSecond ? 'var(--text)' : '#ccc') + ';">🎤 Second Song: ' + (hasSecond ? '<strong>' + s.second + '</strong>' : '<em>not set</em>') + '</div>'
+        + (s.pdf && s.pdf.trim() ? '<div style="margin-top:7px;"><a href="' + s.pdf + '" target="_blank" rel="noopener" style="font-size:.82rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 12px;border:1.5px solid var(--pink-lt);">📄 Open Resource PDF</a></div>' : '')
         + '</div></div>';
     }
   }).join('');
