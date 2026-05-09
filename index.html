@@ -14,172 +14,173 @@
       --shadow:0 8px 32px rgba(180,100,150,0.13);
     }
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#FFD6E0 0%,#C9B8F5 50%,#A8E6CF 100%);min-height:100vh;color:var(--text);overflow-x:hidden;}
+    body{font-family:'Comfortaa',sans-serif;background:linear-gradient(135deg,#FFD6E0 0%,#C9B8F5 50%,#A8E6CF 100%);min-height:100vh;color:var(--text);overflow-x:hidden;}
     body::before{content:'⭐✨💫⭐✨💫⭐✨💫⭐';position:fixed;top:0;left:0;width:100%;height:100%;font-size:1.3rem;letter-spacing:4rem;line-height:6rem;opacity:.07;pointer-events:none;z-index:0;animation:drift 20s linear infinite;word-break:break-all;}
     @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-60px)}}
-    .container{max-width:820px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:1;}
+    .container{max-width:820px;margin:0 auto;padding:16px 12px 60px;position:relative;z-index:1;}
 
     /* HEADER */
-    header{text-align:center;padding:28px 0 18px;}
-    .mascot{font-size:3.4rem;animation:bounce 2s ease-in-out infinite;display:inline-block;}
+    header{text-align:center;padding:24px 0 16px;}
+    .mascot{font-size:3.2rem;animation:bounce 2s ease-in-out infinite;display:inline-block;}
     @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-    header h1{font-family:'Pacifico',cursive;font-size:2.1rem;background:linear-gradient(135deg,#FF8FAB,#C9B8F5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0 4px;filter:drop-shadow(0 2px 8px rgba(200,100,180,.18));}
-    header p{font-size:.93rem;color:#9b6ea0;font-weight:600;}
+    header h1{font-family:'Cookie',cursive;font-size:2.4rem;background:linear-gradient(135deg,#FF8FAB,#C9B8F5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0 4px;filter:drop-shadow(0 2px 8px rgba(200,100,180,.18));}
+    header p{font-size:.9rem;color:#9b6ea0;font-weight:600;}
 
     /* TABS */
-    .tab-bar{display:flex;gap:7px;margin-bottom:20px;flex-wrap:wrap;}
-    .tab-btn{flex:1;min-width:90px;border:none;border-radius:16px;padding:10px 8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.83rem;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.6);color:#9b6ea0;border:2px solid rgba(255,255,255,.7);}
+    .tab-bar{display:flex;gap:5px;margin-bottom:16px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;scrollbar-width:none;}
+    .tab-bar::-webkit-scrollbar{display:none;}
+    .tab-btn{flex:0 0 auto;border:none;border-radius:14px;padding:9px 12px;font-family:'Comfortaa',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.7);color:#9b6ea0;border:2px solid rgba(255,255,255,.7);white-space:nowrap;}
     .tab-btn.active{background:var(--pink);color:#fff;box-shadow:0 4px 16px rgba(255,143,171,.35);}
-    .tab-btn:hover:not(.active){background:rgba(255,255,255,.85);}
+    .tab-btn:hover:not(.active){background:rgba(255,255,255,.9);}
     .tab-panel{display:none;}
     .tab-panel.active{display:block;animation:fadeUp .3s ease;}
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
     /* CARDS */
-    .card{background:var(--card-bg);border-radius:24px;padding:22px 26px;margin-bottom:20px;box-shadow:var(--shadow);backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.7);position:relative;}
-    .card-title{font-size:1.05rem;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--text);flex-wrap:wrap;}
-    .badge{background:var(--pink);color:#fff;border-radius:20px;padding:2px 11px;font-size:.76rem;font-weight:700;}
-    .date-strip{text-align:center;background:linear-gradient(90deg,var(--pink-lt),var(--lavender));border-radius:14px;padding:9px;font-weight:700;font-size:.93rem;color:#7a4f8a;margin-bottom:20px;}
+    .card{background:var(--card-bg);border-radius:20px;padding:18px 16px;margin-bottom:16px;box-shadow:var(--shadow);backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.7);position:relative;}
+    .card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--text);flex-wrap:wrap;}
+    .badge{background:var(--pink);color:#fff;border-radius:20px;padding:2px 10px;font-size:.74rem;font-weight:700;}
+    .date-strip{text-align:center;background:linear-gradient(90deg,var(--pink-lt),var(--lavender));border-radius:12px;padding:9px;font-weight:700;font-size:.88rem;color:#7a4f8a;margin-bottom:16px;}
 
     /* TASKS */
-    .task-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
-    .task-item{background:linear-gradient(90deg,#fff0f5,#f3eeff);border-radius:16px;padding:10px 13px;border:1.5px solid #f0ddf5;transition:transform .15s,box-shadow .15s;}
-    .task-item:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(180,100,150,.1);}
+    .task-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .task-item{background:linear-gradient(90deg,#fff0f5,#f3eeff);border-radius:14px;padding:10px 12px;border:1.5px solid #f0ddf5;transition:transform .15s,box-shadow .15s;}
     .task-item.done{background:linear-gradient(90deg,#e8fef2,#dff9ec);border-color:#b2f0c8;}
     .task-item.done .task-label{text-decoration:line-through;color:#93b8a0;}
-    .task-top{display:flex;align-items:center;gap:10px;}
-    .task-check{width:25px;height:25px;border-radius:50%;border:2.5px solid var(--pink);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;flex-shrink:0;transition:all .2s;}
+    .task-top{display:flex;align-items:center;gap:9px;}
+    .task-check{width:26px;height:26px;border-radius:50%;border:2.5px solid var(--pink);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;flex-shrink:0;transition:all .2s;-webkit-tap-highlight-color:transparent;}
     .task-item.done .task-check{background:var(--mint);border-color:var(--mint);}
-    .task-label{font-weight:700;font-size:.93rem;flex:1;}
-    .task-actions{display:flex;gap:3px;}
-    .btn-icon{background:none;border:none;cursor:pointer;font-size:.88rem;opacity:.5;transition:opacity .15s;padding:2px;}
+    .task-label{font-weight:700;font-size:.9rem;flex:1;line-height:1.4;}
+    .task-actions{display:flex;gap:4px;flex-shrink:0;}
+    .btn-icon{background:none;border:none;cursor:pointer;font-size:.9rem;opacity:.5;transition:opacity .15s;padding:4px;-webkit-tap-highlight-color:transparent;}
     .btn-icon:hover{opacity:1;}
-    .task-link-row{display:flex;align-items:center;gap:8px;margin-top:6px;padding-left:35px;}
-    .task-link-input{flex:1;font-size:.81rem;border:1.5px solid var(--pink-lt);border-radius:8px;padding:4px 9px;font-family:'Nunito',sans-serif;outline:none;color:var(--text);background:#fff7fa;}
-    .task-link-anchor{font-size:.81rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 10px;border:1.5px solid var(--pink-lt);}
+    .task-link-row{display:flex;align-items:center;gap:7px;margin-top:6px;padding-left:35px;flex-wrap:wrap;}
+    .task-link-input{flex:1;min-width:0;font-size:.8rem;border:1.5px solid var(--pink-lt);border-radius:8px;padding:5px 9px;font-family:'Comfortaa',sans-serif;outline:none;color:var(--text);background:#fff7fa;}
+    .task-link-anchor{font-size:.8rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:4px 10px;border:1.5px solid var(--pink-lt);white-space:nowrap;}
     .task-link-anchor:hover{background:var(--pink-lt);}
-    .task-input{flex:1;border:1.5px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:700;color:var(--text);outline:none;background:#fff7fa;}
-    .add-task-row{display:flex;gap:8px;margin-top:11px;}
-    .add-task-input{flex:1;border:2px dashed var(--pink);border-radius:12px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);outline:none;background:#fff7fa;}
+    .task-input{flex:1;min-width:0;border:1.5px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:'Comfortaa',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);outline:none;background:#fff7fa;}
+    .add-task-row{display:flex;gap:8px;margin-top:10px;}
+    .add-task-input{flex:1;min-width:0;border:2px dashed var(--pink);border-radius:12px;padding:9px 12px;font-family:'Comfortaa',sans-serif;font-size:.88rem;color:var(--text);outline:none;background:#fff7fa;}
 
     /* BUTTONS */
-    .btn{border:none;border-radius:12px;padding:9px 17px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.88rem;transition:transform .12s,filter .12s;}
-    .btn:hover{transform:translateY(-2px);filter:brightness(1.05);}
+    .btn{border:none;border-radius:12px;padding:10px 16px;font-family:'Comfortaa',sans-serif;font-weight:700;cursor:pointer;font-size:.86rem;transition:transform .12s,filter .12s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+    .btn:active{transform:scale(.97);}
     .btn-pink{background:var(--pink);color:#fff;}
     .btn-lavender{background:var(--lavender);color:#fff;}
     .btn-mint{background:var(--mint);color:#3a6b55;}
     .btn-yellow{background:var(--yellow);color:#7a5a00;}
-    .btn-sm{padding:6px 13px;font-size:.8rem;}
+    .btn-sm{padding:7px 13px;font-size:.78rem;}
 
     /* TIMER */
     .timer-wrap{text-align:center;}
-    .timer-circle-outer{display:inline-flex;align-items:center;justify-content:center;width:185px;height:185px;border-radius:50%;background:linear-gradient(135deg,var(--pink-lt),var(--lavender));box-shadow:0 0 0 10px rgba(255,143,171,.15),0 8px 30px rgba(180,100,150,.18);margin:10px auto 14px;position:relative;}
+    .timer-circle-outer{display:inline-flex;align-items:center;justify-content:center;width:175px;height:175px;border-radius:50%;background:linear-gradient(135deg,var(--pink-lt),var(--lavender));box-shadow:0 0 0 10px rgba(255,143,171,.15),0 8px 30px rgba(180,100,150,.18);margin:10px auto 14px;position:relative;}
     .timer-circle-outer::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--white);}
-    .timer-display{font-size:2.9rem;font-weight:900;color:var(--pink);letter-spacing:2px;position:relative;z-index:1;font-variant-numeric:tabular-nums;text-align:center;display:block;width:100%;}
+    .timer-display{font-size:2.8rem;font-weight:700;color:var(--pink);letter-spacing:2px;position:relative;z-index:1;font-variant-numeric:tabular-nums;text-align:center;display:block;width:100%;}
     .timer-display.done-color{color:var(--mint);}
-    .timer-emoji{font-size:1.4rem;display:block;margin-top:2px;}
-    .timer-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-bottom:10px;}
+    .timer-emoji{font-size:1.4rem;display:block;margin-top:2px;text-align:center;}
+    .timer-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
     .song-selector{margin-bottom:14px;}
-    .song-selector label{font-weight:700;font-size:.86rem;color:#9b6ea0;display:block;margin-bottom:5px;}
-    .song-select{width:100%;border:2px solid var(--pink-lt);border-radius:12px;padding:8px 13px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);background:#fff7fa;outline:none;cursor:pointer;}
+    .song-selector label{font-weight:700;font-size:.84rem;color:#9b6ea0;display:block;margin-bottom:5px;}
+    .song-select{width:100%;border:2px solid var(--pink-lt);border-radius:12px;padding:10px 13px;font-family:'Comfortaa',sans-serif;font-size:.88rem;color:var(--text);background:#fff7fa;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FF8FAB' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
     .ring-svg{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;}
     .ring-bg{fill:none;stroke:#f3e2f5;stroke-width:10;}
     .ring-prog{fill:none;stroke:var(--pink);stroke-width:10;stroke-linecap:round;stroke-dasharray:534;stroke-dashoffset:534;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .5s ease;}
-    .complete-banner{display:none;text-align:center;background:linear-gradient(135deg,#e8fef2,#d6f0ff);border:2px solid var(--mint);border-radius:20px;padding:18px;margin-top:14px;}
+    .complete-banner{display:none;text-align:center;background:linear-gradient(135deg,#e8fef2,#d6f0ff);border:2px solid var(--mint);border-radius:18px;padding:16px;margin-top:14px;}
     .complete-banner.show{display:block;animation:popIn .4s ease;}
     @keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-    .complete-banner h3{font-size:1.15rem;color:#3a8c60;margin-bottom:4px;}
-    .complete-banner p{font-size:.86rem;color:#5a9e78;font-weight:600;}
-    .confetti{font-size:1.7rem;letter-spacing:6px;}
+    .complete-banner h3{font-size:1.1rem;color:#3a8c60;margin-bottom:4px;}
+    .complete-banner p{font-size:.84rem;color:#5a9e78;font-weight:600;}
+    .confetti{font-size:1.6rem;letter-spacing:6px;}
 
     /* WEEK */
-    .day-label{font-size:.83rem;font-weight:700;color:#b08fbc;margin-bottom:7px;}
-    .progress-row{display:flex;gap:7px;flex-wrap:wrap;}
-    .day-dot{width:35px;height:35px;border-radius:50%;background:#f3e2f5;border:2px solid #e4c6ef;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#b08fbc;}
+    .day-label{font-size:.82rem;font-weight:700;color:#b08fbc;margin-bottom:7px;}
+    .progress-row{display:flex;gap:6px;flex-wrap:wrap;}
+    .day-dot{width:34px;height:34px;border-radius:50%;background:#f3e2f5;border:2px solid #e4c6ef;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#b08fbc;}
     .day-dot.active{background:var(--pink);border-color:var(--pink);color:#fff;}
     .day-dot.today{box-shadow:0 0 0 3px var(--pink-lt);}
 
-    /* GOOGLE FORM WRAPPER */
-    .form-tab-bar{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap;}
-    .form-tab-btn{flex:1;border:none;border-radius:14px;padding:9px 8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;transition:all .2s;background:var(--pink-lt);color:#9b4f7a;border:2px solid rgba(255,255,255,.6);}
+    /* FORM TABS */
+    .form-tab-bar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+    .form-tab-btn{flex:1;min-width:0;border:none;border-radius:12px;padding:9px 8px;font-family:'Comfortaa',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s;background:var(--pink-lt);color:#9b4f7a;border:2px solid rgba(255,255,255,.6);-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
     .form-tab-btn.active{background:var(--lavender);color:#fff;box-shadow:0 3px 12px rgba(180,143,245,.3);}
     .form-tab-btn:hover:not(.active){background:#f0d8ff;}
     .form-panel{display:none;}
     .form-panel.active{display:block;}
-    .form-desc{font-size:.84rem;color:#b08fbc;font-weight:600;margin-bottom:14px;line-height:1.5;}
-    .form-container{border-radius:18px;overflow:hidden;border:2px solid var(--pink-lt);background:#fff;}
-    .form-container iframe{display:block;width:100%;border:none;}
+    .form-desc{font-size:.82rem;color:#b08fbc;font-weight:600;margin-bottom:12px;line-height:1.5;}
+    .form-container{border-radius:16px;overflow:hidden;border:2px solid var(--pink-lt);background:#fff;}
+    .form-container iframe{display:block;width:100%;border:none;min-height:500px;}
 
-    /* SONGS (local tracker) */
-    .songs-grid{display:flex;flex-direction:column;gap:11px;}
-    .song-card{background:linear-gradient(90deg,#fff0f8,#f3eeff);border-radius:18px;padding:15px 17px;border:1.5px solid #f0ddf5;transition:transform .15s,box-shadow .15s;}
-    .song-card:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(180,100,150,.1);}
-    .song-card-top{display:flex;align-items:flex-start;gap:11px;}
-    .song-icon{font-size:1.7rem;flex-shrink:0;}
-    .song-info{flex:1;}
-    .song-title-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
-    .song-name{font-weight:800;font-size:.97rem;color:var(--text);}
-    .song-artist{font-size:.8rem;color:#b08fbc;font-weight:600;}
-    .song-status-badge{font-size:.73rem;font-weight:700;border-radius:10px;padding:2px 9px;}
+    /* SONGS */
+    .songs-grid{display:flex;flex-direction:column;gap:10px;}
+    .song-card{background:linear-gradient(90deg,#fff0f8,#f3eeff);border-radius:16px;padding:14px 14px;border:1.5px solid #f0ddf5;}
+    .song-card-top{display:flex;align-items:flex-start;gap:10px;}
+    .song-icon{font-size:1.6rem;flex-shrink:0;}
+    .song-info{flex:1;min-width:0;}
+    .song-title-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+    .song-name{font-weight:700;font-size:.93rem;color:var(--text);}
+    .song-artist{font-size:.78rem;color:#b08fbc;font-weight:600;}
+    .song-status-badge{font-size:.71rem;font-weight:700;border-radius:10px;padding:2px 8px;}
     .song-status-badge.learning{background:#fff0c0;color:#8a6500;}
     .song-status-badge.polishing{background:#d6f0ff;color:#2a6a8a;}
     .song-status-badge.performance{background:#e0ffe8;color:#2a7a4f;}
-    .confidence-row{margin-top:9px;}
-    .confidence-label{font-size:.79rem;font-weight:700;color:#9b6ea0;margin-bottom:4px;}
-    .star-row{display:flex;gap:3px;}
-    .star-btn{background:none;border:none;cursor:pointer;font-size:1.35rem;line-height:1;padding:2px;transition:transform .1s;}
-    .star-btn:hover{transform:scale(1.2);}
-    .song-notes-field{width:100%;border:1.5px solid var(--pink-lt);border-radius:10px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:.83rem;color:var(--text);background:#fff7fa;resize:none;outline:none;margin-top:9px;min-height:52px;}
-    .song-link-field{width:100%;border:1.5px solid var(--pink-lt);border-radius:10px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:.83rem;color:var(--text);background:#fff7fa;outline:none;margin-top:6px;}
+    .confidence-row{margin-top:8px;}
+    .confidence-label{font-size:.77rem;font-weight:700;color:#9b6ea0;margin-bottom:4px;}
+    .star-row{display:flex;gap:4px;}
+    .star-btn{background:none;border:none;cursor:pointer;font-size:1.4rem;line-height:1;padding:3px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+    .song-notes-field{width:100%;border:1.5px solid var(--pink-lt);border-radius:10px;padding:7px 10px;font-family:'Comfortaa',sans-serif;font-size:.82rem;color:var(--text);background:#fff7fa;resize:none;outline:none;margin-top:8px;min-height:52px;}
+    .song-link-field{width:100%;border:1.5px solid var(--pink-lt);border-radius:10px;padding:7px 10px;font-family:'Comfortaa',sans-serif;font-size:.82rem;color:var(--text);background:#fff7fa;outline:none;margin-top:6px;}
     .song-actions-row{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;align-items:center;}
-    .add-song-form{background:linear-gradient(135deg,#fff7fb,#f0edff);border-radius:18px;padding:16px 18px;border:2px dashed var(--pink-lt);margin-bottom:14px;}
-    .form-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:9px;}
-    .form-input{flex:1;min-width:120px;border:2px solid var(--pink-lt);border-radius:12px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);background:#fff7fa;outline:none;transition:border-color .2s;}
+    .add-song-form{background:linear-gradient(135deg,#fff7fb,#f0edff);border-radius:16px;padding:14px 14px;border:2px dashed var(--pink-lt);margin-bottom:12px;}
+    .form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+    .form-input{flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:9px 12px;font-family:'Comfortaa',sans-serif;font-size:.88rem;color:var(--text);background:#fff7fa;outline:none;transition:border-color .2s;}
     .form-input:focus{border-color:var(--pink);}
-    .form-select{flex:1;min-width:115px;border:2px solid var(--pink-lt);border-radius:12px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);background:#fff7fa;outline:none;cursor:pointer;}
-    .note-area{width:100%;border:2px solid var(--pink-lt);border-radius:14px;padding:11px 13px;font-family:'Nunito',sans-serif;font-size:.91rem;color:var(--text);background:#fff7fa;resize:vertical;outline:none;min-height:76px;}
+    .form-select{flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:9px 12px;font-family:'Comfortaa',sans-serif;font-size:.88rem;color:var(--text);background:#fff7fa;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;}
+    .note-area{width:100%;border:2px solid var(--pink-lt);border-radius:12px;padding:11px 12px;font-family:'Comfortaa',sans-serif;font-size:.88rem;color:var(--text);background:#fff7fa;resize:vertical;outline:none;min-height:76px;}
     .save-note-row{display:flex;justify-content:flex-end;margin-top:7px;}
 
-    /* SHEETS LINK BANNER */
-    .sheets-banner{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid var(--mint);border-radius:16px;padding:14px 18px;margin-bottom:18px;font-size:.86rem;color:#2a6b50;font-weight:600;line-height:1.6;}
-    .sheets-banner a{color:var(--pink);font-weight:800;text-decoration:none;}
-    .sheets-banner a:hover{text-decoration:underline;}
+    /* SHEETS BANNER */
+    .sheets-banner{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid var(--mint);border-radius:14px;padding:12px 14px;margin-bottom:14px;font-size:.83rem;color:#2a6b50;font-weight:600;line-height:1.6;}
 
-    footer{text-align:center;font-size:.8rem;color:#c097c8;margin-top:28px;}
-@media(max-width:600px){
-  header h1{font-size:1.5rem;}
-  header .mascot{font-size:2.6rem;}
-  .tab-bar{gap:5px;}
-  .tab-btn{font-size:.72rem;padding:8px 4px;min-width:0;border-radius:12px;}
-  .card{padding:16px 14px;}
-  .card-title{font-size:.95rem;}
-  .timer-display{font-size:2.2rem;}
-  .timer-circle-outer{width:150px;height:150px;}
-  .timer-controls{gap:6px;}
-  .btn{padding:8px 12px;font-size:.82rem;}
-  .btn-sm{padding:5px 10px;font-size:.76rem;}
-  .form-tab-bar{gap:5px;}
-  .form-tab-btn{font-size:.78rem;padding:8px 6px;}
-  .add-task-row{flex-direction:column;}
-  .add-task-input{width:100%;}
-  .form-row{flex-direction:column;}
-  .form-input,.form-select{min-width:0;width:100%;}
-  .song-card{padding:12px 13px;}
-  .star-btn{font-size:1.2rem;}
-  .progress-row{gap:5px;}
-  .day-dot{width:30px;height:30px;font-size:.72rem;}
-  .sheets-banner{padding:10px 12px;font-size:.8rem;}
-  .date-strip{font-size:.82rem;}
-  .task-label{font-size:.88rem;}
-  .form-container iframe{min-height:600px;}
-}
+    /* SCHEDULE TABLE */
+    .sched-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px;}
+    .sched-table{width:100%;border-collapse:separate;border-spacing:0 7px;min-width:340px;}
+    .sched-table th{text-align:left;font-size:.72rem;font-weight:700;color:#b08fbc;padding:3px 10px;}
+    .sched-cell{padding:10px 10px;vertical-align:middle;}
+    .sched-day-cell{border-radius:12px 0 0 12px;white-space:nowrap;min-width:52px;}
+    .sched-mid-cell{border-left:none;border-right:none;}
+    .sched-last-cell{border-radius:0 12px 12px 0;border-left:none;}
 
-@media(max-width:380px){
-  .tab-btn{font-size:.65rem;padding:7px 3px;}
-  header h1{font-size:1.3rem;}
-  .timer-display{font-size:1.9rem;}
-  .timer-circle-outer{width:130px;height:130px;}
-}
+    footer{text-align:center;font-size:.78rem;color:#c097c8;margin-top:24px;}
+
+    /* MOBILE */
+    @media(max-width:600px){
+      .container{padding:12px 10px 50px;}
+      header h1{font-size:1.9rem;}
+      header .mascot{font-size:2.6rem;}
+      .tab-btn{font-size:.74rem;padding:8px 10px;}
+      .card{padding:14px 12px;}
+      .timer-circle-outer{width:155px;height:155px;}
+      .timer-display{font-size:2.3rem;}
+      .timer-controls{gap:6px;}
+      .btn{padding:9px 12px;font-size:.82rem;}
+      .btn-sm{padding:6px 11px;font-size:.75rem;}
+      .add-task-row{flex-wrap:nowrap;}
+      .form-row{flex-direction:column;}
+      .form-input,.form-select{min-width:0;width:100%;}
+      .star-btn{font-size:1.3rem;}
+      .day-dot{width:32px;height:32px;font-size:.74rem;}
+      .sheets-banner{font-size:.79rem;padding:10px 11px;}
+      .sched-table th{font-size:.68rem;padding:3px 7px;}
+      .sched-cell{padding:8px 7px;}
+      .song-name{font-size:.88rem;}
+    }
+    @media(max-width:380px){
+      header h1{font-size:1.6rem;}
+      .tab-btn{font-size:.68rem;padding:7px 8px;}
+      .timer-display{font-size:2rem;}
+      .timer-circle-outer{width:135px;height:135px;}
+      .btn{padding:8px 10px;font-size:.78rem;}
+    }
   </style>
 </head>
 <body>
@@ -193,7 +194,7 @@
 
   <div class="date-strip" id="dateStrip">📅 Today is …</div>
 
-  <!-- MAIN TABS -->
+  <!-- TABS — horizontal scroll on mobile -->
   <div class="tab-bar">
     <button class="tab-btn active" id="tbtn-practice" onclick="switchTab('practice',this)">🌸 Practice</button>
     <button class="tab-btn"        id="tbtn-checkin"  onclick="switchTab('checkin',this)">✅ Check-In</button>
@@ -202,14 +203,14 @@
     <button class="tab-btn"        id="tbtn-schedule" onclick="switchTab('schedule',this)">📅 Schedule</button>
   </div>
 
-  <!-- ══════════ TAB: PRACTICE ══════════ -->
+  <!-- ══════════ PRACTICE ══════════ -->
   <div id="tab-practice" class="tab-panel active">
 
     <div class="card">
       <div class="card-title">🌸 Daily Practice Tasks <span class="badge" id="taskBadge">0/0</span></div>
       <ul class="task-list" id="taskList"></ul>
       <div class="add-task-row">
-        <input class="add-task-input" id="newTaskInput" placeholder="✏️ Add a new exercise or song…"/>
+        <input class="add-task-input" id="newTaskInput" placeholder="✏️ Add a new exercise…"/>
         <button class="btn btn-pink" onclick="addTask()">+ Add</button>
       </div>
     </div>
@@ -218,14 +219,15 @@
       <div class="card-title">⏱️ Practice Timer <span class="badge" id="timerBadge">20 min</span></div>
       <div class="song-selector">
         <label>🎵 Currently practicing:</label>
-<select class="song-select" id="songSelect" onchange="handleSongSelectChange(this.value)">
-  <option value="Free Practice" data-minutes="20">🎤 Free Practice — 20 min</option>
-  <option value="Warm-Up Exercises" data-minutes="5">🎵 Warm-Up Exercises — 5 min</option>
-  <option value="Breathing Technique Practice" data-minutes="5">🎶 Breathing Technique Practice — 5 min</option>
-  <option value="Main Song" data-minutes="15">🌟 Main Song — 15 min</option>
-  <option value="Second Song" data-minutes="15">🎤 Second Song — 15 min</option>
-  <option value="Cool Down and Reflection" data-minutes="5">💫 Cool Down & Reflect — 5 min</option>
-</select>
+        <select class="song-select" id="songSelect" onchange="handleSongSelectChange(this.value)">
+          <option value="Free Practice"              data-minutes="20">🎤 Free Practice — 20 min</option>
+          <option value="Warm-Up Exercises"          data-minutes="5">🎵 Warm-Up Exercises — 5 min</option>
+          <option value="Breathing Technique Practice" data-minutes="5">🎶 Breathing — 5 min</option>
+          <option value="Main Song"                  data-minutes="15">🌟 Main Song — 15 min</option>
+          <option value="Second Song"                data-minutes="15">🎤 Second Song — 15 min</option>
+          <option value="Cool Down and Reflection"   data-minutes="5">💫 Cool Down — 5 min</option>
+        </select>
+      </div>
       <div class="timer-wrap">
         <div class="timer-circle-outer">
           <svg class="ring-svg" viewBox="0 0 180 180">
@@ -241,12 +243,12 @@
           <button class="btn btn-pink"     id="startBtn" onclick="startTimer()">▶ Start</button>
           <button class="btn btn-lavender" id="pauseBtn" onclick="pauseTimer()" style="display:none">⏸ Pause</button>
           <button class="btn btn-mint"                   onclick="resetTimer()">↺ Reset</button>
-          <button class="btn btn-yellow"                 onclick="openCustom()">⚙️ Set Time</button>
+          <button class="btn btn-yellow"                 onclick="openCustom()">⚙️ Time</button>
         </div>
         <div id="customPanel" style="display:none;margin-top:10px;text-align:center;">
-          <label style="font-size:.88rem;font-weight:700;color:#9b6ea0;">Minutes: </label>
+          <label style="font-size:.86rem;font-weight:700;color:#9b6ea0;">Minutes: </label>
           <input type="number" id="customMin" min="1" max="120" value="20"
-            style="width:65px;border:2px solid var(--pink);border-radius:10px;padding:6px 9px;font-family:'Nunito',sans-serif;font-size:.93rem;outline:none;">
+            style="width:62px;border:2px solid var(--pink);border-radius:10px;padding:6px 8px;font-family:'Comfortaa',sans-serif;font-size:.9rem;outline:none;">
           <button class="btn btn-pink btn-sm" onclick="applyCustom()" style="margin-left:6px;">Set ✓</button>
         </div>
       </div>
@@ -273,61 +275,50 @@
     </div>
   </div>
 
-  <!-- ══════════ TAB: CHECK-IN ══════════ -->
+  <!-- ══════════ CHECK-IN ══════════ -->
   <div id="tab-checkin" class="tab-panel">
     <div class="card">
       <div class="card-title">✅ Daily Practice Check-In</div>
-      <div class="sheets-banner">
-        📊 Your responses go straight to your teacher's Google Sheet! Fill this out after each practice session. 🌸
-      </div>
+      <div class="sheets-banner">📊 Your responses go straight to your teacher's Google Sheet! Fill this out after each practice session. 🌸</div>
       <p class="form-desc">Log which tasks you completed, how long you practiced, and how it went overall.</p>
       <div class="form-container">
-        <iframe
-          src="https://docs.google.com/forms/d/e/1FAIpQLSf87pSwbyY1uZl-iuUOr0d-9BCL7QAsxjvpOV8Wax4T73LxKw/viewform?embedded=true"
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSf87pSwbyY1uZl-iuUOr0d-9BCL7QAsxjvpOV8Wax4T73LxKw/viewform?embedded=true"
           height="1262" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
       </div>
     </div>
   </div>
 
-  <!-- ══════════ TAB: JOURNAL ══════════ -->
+  <!-- ══════════ JOURNAL ══════════ -->
   <div id="tab-journal" class="tab-panel">
     <div class="card">
       <div class="card-title">📔 Cool Down &amp; Reflection Journal</div>
-      <div class="sheets-banner">
-        📊 Your reflections are sent directly to your teacher so she can follow your journey! 🌷
-      </div>
-
-      <!-- Sub-tabs: write new OR view past -->
+      <div class="sheets-banner">📊 Your reflections are sent directly to your teacher so she can follow your journey! 🌷</div>
       <div class="form-tab-bar">
         <button class="form-tab-btn active" id="jftbtn-write" onclick="switchFormTab('journal','write',this)">✍️ Write Reflection</button>
         <button class="form-tab-btn"        id="jftbtn-past"  onclick="switchFormTab('journal','past',this)">🌸 My Past Entries</button>
       </div>
-
       <div id="journal-form-write" class="form-panel active">
         <p class="form-desc">Take a moment to reflect on your practice. How did it feel? What did you learn?</p>
         <div class="form-container">
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSe-2MyeHimn2DirpTjbWlNf3B_2p0_5YxeV2FtrP3xD-9rtLA/viewform?embedded=true"
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe-2MyeHimn2DirpTjbWlNf3B_2p0_5YxeV2FtrP3xD-9rtLA/viewform?embedded=true"
             height="874" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
         </div>
       </div>
-
       <div id="journal-form-past" class="form-panel">
         <p class="form-desc">Your saved reflections from previous sessions:</p>
-        <!-- Local journal entries (saved in browser) -->
         <div style="margin-bottom:14px;">
-          <div style="font-size:.83rem;font-weight:700;color:#9b6ea0;margin-bottom:8px;">How did today feel?</div>
+          <div style="font-size:.82rem;font-weight:700;color:#9b6ea0;margin-bottom:8px;">How did today feel?</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
-            <button class="form-tab-btn" data-mood="😄" onclick="pickMood(this)" style="flex:none;padding:5px 10px;">😄</button>
-            <button class="form-tab-btn" data-mood="🙂" onclick="pickMood(this)" style="flex:none;padding:5px 10px;">🙂</button>
-            <button class="form-tab-btn" data-mood="😐" onclick="pickMood(this)" style="flex:none;padding:5px 10px;">😐</button>
-            <button class="form-tab-btn" data-mood="😓" onclick="pickMood(this)" style="flex:none;padding:5px 10px;">😓</button>
-            <button class="form-tab-btn" data-mood="💪" onclick="pickMood(this)" style="flex:none;padding:5px 10px;">💪</button>
-            <button class="form-tab-btn" data-mood="🌟" onclick="pickMood(this)" style="flex:none;padding:5px 10px;">🌟</button>
+            <button class="form-tab-btn" data-mood="😄" onclick="pickMood(this)" style="flex:none;padding:6px 11px;">😄</button>
+            <button class="form-tab-btn" data-mood="🙂" onclick="pickMood(this)" style="flex:none;padding:6px 11px;">🙂</button>
+            <button class="form-tab-btn" data-mood="😐" onclick="pickMood(this)" style="flex:none;padding:6px 11px;">😐</button>
+            <button class="form-tab-btn" data-mood="😓" onclick="pickMood(this)" style="flex:none;padding:6px 11px;">😓</button>
+            <button class="form-tab-btn" data-mood="💪" onclick="pickMood(this)" style="flex:none;padding:6px 11px;">💪</button>
+            <button class="form-tab-btn" data-mood="🌟" onclick="pickMood(this)" style="flex:none;padding:6px 11px;">🌟</button>
           </div>
           <textarea class="note-area" id="localJournalText" placeholder="Write a personal note here (saved only on this device)…" style="min-height:80px;"></textarea>
           <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-            <button class="btn btn-pink" onclick="saveLocalJournal()">💾 Save Local Entry</button>
+            <button class="btn btn-pink" onclick="saveLocalJournal()">💾 Save Entry</button>
           </div>
         </div>
         <div id="localJournalList"></div>
@@ -335,22 +326,18 @@
     </div>
   </div>
 
-  <!-- ══════════ TAB: SONGS ══════════ -->
+  <!-- ══════════ SONGS ══════════ -->
   <div id="tab-songs" class="tab-panel">
-
-    <!-- Sub-tabs: local tracker OR google form log -->
     <div class="card">
       <div class="card-title">🎶 Song Tracker</div>
       <div class="form-tab-bar">
         <button class="form-tab-btn active" id="sftbtn-tracker" onclick="switchFormTab('songs','tracker',this)">🎵 My Song List</button>
         <button class="form-tab-btn"        id="sftbtn-log"     onclick="switchFormTab('songs','log',this)">📊 Log to Teacher</button>
       </div>
-
-      <!-- LOCAL SONG TRACKER -->
       <div id="songs-form-tracker" class="form-panel active">
-        <p class="form-desc">Keep track of every song you're working on below. Use "Log to Teacher" to send your confidence rating to your teacher's sheet! 🌸</p>
+        <p class="form-desc">Track every song you're working on. Use "Log to Teacher" to send confidence ratings! 🌸</p>
         <div class="add-song-form">
-          <div style="font-weight:800;font-size:.92rem;margin-bottom:11px;color:var(--text);">➕ Add a New Song</div>
+          <div style="font-weight:700;font-size:.9rem;margin-bottom:10px;color:var(--text);">➕ Add a New Song</div>
           <div class="form-row">
             <input class="form-input" id="newSongTitle"  placeholder="🎵 Song Title"/>
             <input class="form-input" id="newSongArtist" placeholder="🎤 Artist (optional)"/>
@@ -366,47 +353,38 @@
           <button class="btn btn-pink" onclick="addSong()">🎶 Add Song</button>
         </div>
         <div class="songs-grid" id="songsGrid">
-          <div style="text-align:center;color:#c4a0cc;font-size:.88rem;padding:16px 0;" id="noSongs">No songs yet — add your first one above! 🎵</div>
+          <div style="text-align:center;color:#c4a0cc;font-size:.86rem;padding:16px 0;" id="noSongs">No songs yet — add your first one above! 🎵</div>
         </div>
       </div>
-
-      <!-- GOOGLE FORM: LOG TO TEACHER -->
       <div id="songs-form-log" class="form-panel">
-        <div class="sheets-banner">
-          📊 Use this form to send your song confidence update directly to your teacher! 🎤
-        </div>
-        <p class="form-desc">Fill this out whenever your confidence on a song changes — after a great practice, before a lesson, or anytime!</p>
+        <div class="sheets-banner">📊 Use this form to send your song confidence update directly to your teacher! 🎤</div>
+        <p class="form-desc">Fill this out whenever your confidence on a song changes!</p>
         <div class="form-container">
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSfQHEZqm8kMZP_mKq_geg4ZuZWoussUyE-ty5z8FIMMaPfCEg/viewform?embedded=true"
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQHEZqm8kMZP_mKq_geg4ZuZWoussUyE-ty5z8FIMMaPfCEg/viewform?embedded=true"
             height="1214" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
         </div>
       </div>
     </div>
   </div>
-<!-- ══════════ TAB: SCHEDULE ══════════ -->
-<div id="tab-schedule" class="tab-panel">
-  <div class="card">
-    <div class="card-title">📅 Your Weekly Practice Schedule</div>
-    <p style="font-size:.84rem;color:#b08fbc;font-weight:600;margin-bottom:16px;">
-      Your teacher sets your songs for each day below. When you open the Practice tab,
-      your Main Song and Second Song tasks update automatically! 🌸
-    </p>
 
-    <!-- Teacher edit toggle -->
-    <div style="margin-bottom:16px;">
-      <button class="btn btn-lavender btn-sm" onclick="toggleScheduleEdit()">✏️ Edit Schedule (Teacher)</button>
-      <span id="schedEditNote" style="font-size:.78rem;color:#c4a0cc;margin-left:8px;font-weight:600;"></span>
+  <!-- ══════════ SCHEDULE ══════════ -->
+  <div id="tab-schedule" class="tab-panel">
+    <div class="card">
+      <div class="card-title">📅 Your Weekly Practice Schedule</div>
+      <p style="font-size:.82rem;color:#b08fbc;font-weight:600;margin-bottom:14px;">Your teacher sets your songs for each day. They update your Practice tasks automatically! 🌸</p>
+      <div style="margin-bottom:14px;">
+        <button class="btn btn-lavender btn-sm" onclick="toggleScheduleEdit()">✏️ Edit Schedule (Teacher)</button>
+        <span id="schedEditNote" style="font-size:.76rem;color:#c4a0cc;margin-left:8px;font-weight:600;"></span>
+      </div>
+      <div id="scheduleView"></div>
     </div>
-
-    <div id="scheduleView"></div>
   </div>
-</div>
+
   <footer>🌸 Made with love for your vocal journey 🌸</footer>
 </div>
 
 <script>
-// ── STATE ─────────────────────────────────────────────
+// ── STATE ────────────────────────────────────────────
 const DEFAULT_TASKS = [
   { label:'🎵 Warm-Up Exercises',            done:false, link:'', isJournal:false },
   { label:'🎶 Breathing Technique Practice', done:false, link:'', isJournal:false },
@@ -415,27 +393,35 @@ const DEFAULT_TASKS = [
   { label:'💫 Cool Down and Reflection',     done:false, link:'', isJournal:true  },
 ];
 
-let tasks          = JSON.parse(localStorage.getItem('vp_tasks5')) || DEFAULT_TASKS.map(t=>({...t}));
-let notes          = localStorage.getItem('vp_notes')    || '';
-let weekData       = JSON.parse(localStorage.getItem('vp_week'))   || {};
-let practiceMin    = parseInt(localStorage.getItem('vp_minutes'))  || 20;
-let songs          = JSON.parse(localStorage.getItem('vp_songs'))  || [];
-let localJournal   = JSON.parse(localStorage.getItem('vp_ljrnl'))  || [];
-let selectedMood   = '';
+let tasks        = JSON.parse(localStorage.getItem('vp_tasks5')) || DEFAULT_TASKS.map(function(t){ return Object.assign({},t); });
+let notes        = localStorage.getItem('vp_notes')   || '';
+let weekData     = JSON.parse(localStorage.getItem('vp_week'))   || {};
+let practiceMin  = parseInt(localStorage.getItem('vp_minutes'))  || 20;
+let songs        = JSON.parse(localStorage.getItem('vp_songs'))  || [];
+let localJournal = JSON.parse(localStorage.getItem('vp_ljrnl'))  || [];
+let selectedMood = '';
 
 let timerTotal = practiceMin * 60, timerLeft = timerTotal;
 let timerInterval = null, timerRunning = false, timerDone = false;
 
-// ── INIT ────────────────────────────────────────────
+// ── SCHEDULE STATE ───────────────────────────────────
+const DAYS_OF_WEEK = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+let schedule = JSON.parse(localStorage.getItem('vp_schedule')) || {
+  Monday:{main:'',second:'',pdf:'',pdf2:''},Tuesday:{main:'',second:'',pdf:'',pdf2:''},
+  Wednesday:{main:'',second:'',pdf:'',pdf2:''},Thursday:{main:'',second:'',pdf:'',pdf2:''},
+  Friday:{main:'',second:'',pdf:'',pdf2:''},Saturday:{main:'',second:'',pdf:'',pdf2:''},
+  Sunday:{main:'',second:'',pdf:'',pdf2:''}
+};
+let scheduleEditMode = false;
+
+// ── INIT ─────────────────────────────────────────────
 function init() {
-  const now   = new Date();
-  const DAYS  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const MONS  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('dateStrip').textContent =
-    '📅 ' + DAYS[now.getDay()] + ', ' + MONS[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
-  const h = now.getHours();
-  document.getElementById('greeting').textContent =
-    h < 12 ? '☀️ Good morning, Annabelle!' : h < 17 ? '🌤️ Good afternoon, Annabelle!' : '🌙 Good evening, Annabelle!';
+  var now = new Date();
+  var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MONS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dateStrip').textContent = '📅 ' + DAYS[now.getDay()] + ', ' + MONS[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+  var h = now.getHours();
+  document.getElementById('greeting').textContent = h<12 ? '☀️ Good morning, Annabelle!' : h<17 ? '🌤️ Good afternoon, Annabelle!' : '🌙 Good evening, Annabelle!';
   renderTasks();
   renderWeek();
   updateTimerDisplay();
@@ -445,156 +431,152 @@ function init() {
   document.getElementById('newTaskInput').addEventListener('keydown', function(e){ if(e.key==='Enter') addTask(); });
 }
 
-// ── TABS ────────────────────────────────────────────
+// ── TABS ─────────────────────────────────────────────
 function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
+  // scroll tab into view on mobile
+  btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
 }
 
 function switchFormTab(group, name, btn) {
-  const prefix = group + '-form-';
-  document.querySelectorAll('[id^="' + prefix + '"]').forEach(function(p){ p.classList.remove('active'); });
-  // deactivate sibling buttons
+  var prefix = group+'-form-';
+  document.querySelectorAll('[id^="'+prefix+'"]').forEach(function(p){ p.classList.remove('active'); });
   btn.parentElement.querySelectorAll('.form-tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById(prefix + name).classList.add('active');
+  document.getElementById(prefix+name).classList.add('active');
   btn.classList.add('active');
 }
 
-// ── TASKS ───────────────────────────────────────────
+// ── TASKS ────────────────────────────────────────────
 function saveTasks() {
   localStorage.setItem('vp_tasks5', JSON.stringify(tasks));
   updateSongSelect();
 }
 
 function renderTasks() {
-  const ul = document.getElementById('taskList');
+  var ul = document.getElementById('taskList');
   ul.innerHTML = '';
   tasks.forEach(function(t, i) {
-    const li = document.createElement('li');
-    li.className = 'task-item' + (t.done ? ' done' : '');
-    const linkInner = t.link
-      ? '<a class="task-link-anchor" href="' + t.link + '" target="_blank" rel="noopener">🔗 Open Resource</a>'
-        + '<button class="btn-icon" onclick="clearLink(' + i + ')">✕</button>'
-      : '<input class="task-link-input" placeholder="Paste resource URL and press Enter…"'
-        + ' onblur="setLink(' + i + ',this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />';
-    const journalBtn = t.isJournal
-      ? '<button class="btn-icon" title="Open Journal" onclick="goToJournal()">📔</button>' : '';
+    var li = document.createElement('li');
+    li.className = 'task-item'+(t.done?' done':'');
+    var linkInner = t.link
+      ? '<a class="task-link-anchor" href="'+t.link+'" target="_blank" rel="noopener">🔗 Open Resource</a>'
+        +'<button class="btn-icon" onclick="clearLink('+i+')">✕</button>'
+      : '<input class="task-link-input" placeholder="Paste resource URL…"'
+        +' onblur="setLink('+i+',this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />';
+    var journalBtn = t.isJournal ? '<button class="btn-icon" onclick="goToJournal()">📔</button>' : '';
     li.innerHTML =
       '<div class="task-top">'
-      + '<div class="task-check" onclick="toggleTask(' + i + ')">' + (t.done ? '✓' : '') + '</div>'
-      + '<span class="task-label" id="tl-' + i + '">' + t.label + '</span>'
-      + '<div class="task-actions">' + journalBtn
-      + '<button class="btn-icon" onclick="editTask(' + i + ')">✏️</button>'
-      + '<button class="btn-icon" onclick="toggleLinkRow(' + i + ')">🔗</button>'
-      + '<button class="btn-icon" onclick="deleteTask(' + i + ')">🗑️</button>'
-      + '</div></div>'
-      + '<div class="task-link-row" id="lr-' + i + '" style="display:' + (t.link ? 'flex' : 'none') + '">'
-      + linkInner + '</div>';
+      +'<div class="task-check" onclick="toggleTask('+i+')">'+(t.done?'✓':'')+'</div>'
+      +'<span class="task-label" id="tl-'+i+'">'+t.label+'</span>'
+      +'<div class="task-actions">'+journalBtn
+      +'<button class="btn-icon" onclick="editTask('+i+')">✏️</button>'
+      +'<button class="btn-icon" onclick="toggleLinkRow('+i+')">🔗</button>'
+      +'<button class="btn-icon" onclick="deleteTask('+i+')">🗑️</button>'
+      +'</div></div>'
+      +'<div class="task-link-row" id="lr-'+i+'" style="display:'+(t.link?'flex':'none')+'">'
+      +linkInner+'</div>';
     ul.appendChild(li);
   });
-  document.getElementById('taskBadge').textContent = tasks.filter(function(t){ return t.done; }).length + '/' + tasks.length;
+  document.getElementById('taskBadge').textContent = tasks.filter(function(t){ return t.done; }).length+'/'+tasks.length;
   updateSongSelect();
 }
 
 function toggleLinkRow(i) {
-  var r = document.getElementById('lr-' + i);
-  r.style.display = r.style.display === 'none' ? 'flex' : 'none';
+  var r = document.getElementById('lr-'+i);
+  r.style.display = r.style.display==='none' ? 'flex' : 'none';
 }
-function setLink(i, val) {
-  val = val.trim();
-  if (val && !val.startsWith('http')) val = 'https://' + val;
-  tasks[i].link = val; saveTasks(); renderTasks();
+function setLink(i,val) {
+  val=val.trim(); if(val&&!val.startsWith('http')) val='https://'+val;
+  tasks[i].link=val; saveTasks(); renderTasks();
 }
-function clearLink(i) { tasks[i].link = ''; saveTasks(); renderTasks(); }
+function clearLink(i){ tasks[i].link=''; saveTasks(); renderTasks(); }
+
 function toggleTask(i) {
-  tasks[i].done = !tasks[i].done; saveTasks(); renderTasks();
+  tasks[i].done=!tasks[i].done; saveTasks(); renderTasks();
   if (tasks[i].isJournal && tasks[i].done) {
-    setTimeout(function(){
-      switchTab('journal', document.getElementById('tbtn-journal'));
-    }, 250);
+    setTimeout(function(){ switchTab('journal',document.getElementById('tbtn-journal')); }, 250);
   }
   if (tasks.every(function(t){ return t.done; }) && tasks.length) {
     setTimeout(function(){
       alert('🌟 All tasks done! Amazing session today! 🎉');
-      switchTab('checkin', document.getElementById('tbtn-checkin'));
+      switchTab('checkin',document.getElementById('tbtn-checkin'));
     }, 350);
   }
 }
+
 function addTask() {
-  var inp = document.getElementById('newTaskInput'), val = inp.value.trim();
-  if (!val) return;
-  tasks.push({ label:val, done:false, link:'', isJournal:false });
-  inp.value = ''; saveTasks(); renderTasks();
+  var inp=document.getElementById('newTaskInput'), val=inp.value.trim(); if(!val) return;
+  tasks.push({label:val,done:false,link:'',isJournal:false}); inp.value=''; saveTasks(); renderTasks();
 }
-function deleteTask(i) { tasks.splice(i,1); saveTasks(); renderTasks(); }
+function deleteTask(i){ tasks.splice(i,1); saveTasks(); renderTasks(); }
 function editTask(i) {
-  var lbl = document.getElementById('tl-' + i), old = tasks[i].label;
-  lbl.outerHTML = '<input class="task-input" id="ti-' + i + '" value="' + old.replace(/"/g,'&quot;') + '" />';
-  var inp = document.getElementById('ti-' + i); inp.focus();
-  inp.addEventListener('blur', function(){ tasks[i].label = inp.value || old; saveTasks(); renderTasks(); });
-  inp.addEventListener('keydown', function(e){ if(e.key==='Enter') inp.blur(); });
+  var lbl=document.getElementById('tl-'+i), old=tasks[i].label;
+  lbl.outerHTML='<input class="task-input" id="ti-'+i+'" value="'+old.replace(/"/g,'&quot;')+'" />';
+  var inp=document.getElementById('ti-'+i); inp.focus();
+  inp.addEventListener('blur',function(){ tasks[i].label=inp.value||old; saveTasks(); renderTasks(); });
+  inp.addEventListener('keydown',function(e){ if(e.key==='Enter') inp.blur(); });
 }
 function goToJournal() {
-  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('tab-journal').classList.add('active');
-  document.getElementById('tbtn-journal').classList.add('active');
+  switchTab('journal',document.getElementById('tbtn-journal'));
 }
 
-// ── SONG SELECT ─────────────────────────────────────
+// ── SONG SELECT ──────────────────────────────────────
 function updateSongSelect() {
-  var sel = document.getElementById('songSelect'), cur = sel.value;
-  sel.innerHTML = ''
-    + '<option value="Free Practice" data-minutes="20">🎤 Free Practice — 20 min</option>'
-    + '<option value="Warm-Up Exercises" data-minutes="5">🎵 Warm-Up Exercises — 5 min</option>'
-    + '<option value="Breathing Technique Practice" data-minutes="5">🎶 Breathing Technique Practice — 5 min</option>'
-    + '<option value="Main Song" data-minutes="15">🌟 Main Song — 15 min</option>'
-    + '<option value="Second Song" data-minutes="15">🎤 Second Song — 15 min</option>'
-    + '<option value="Cool Down and Reflection" data-minutes="5">💫 Cool Down & Reflect — 5 min</option>';
-  var fixedValues = ['Free Practice','Warm-Up Exercises','Breathing Technique Practice','Main Song','Second Song','Cool Down and Reflection'];
+  var sel=document.getElementById('songSelect'), cur=sel.value;
+  sel.innerHTML=''
+    +'<option value="Free Practice" data-minutes="20">🎤 Free Practice — 20 min</option>'
+    +'<option value="Warm-Up Exercises" data-minutes="5">🎵 Warm-Up Exercises — 5 min</option>'
+    +'<option value="Breathing Technique Practice" data-minutes="5">🎶 Breathing — 5 min</option>'
+    +'<option value="Main Song" data-minutes="15">🌟 Main Song — 15 min</option>'
+    +'<option value="Second Song" data-minutes="15">🎤 Second Song — 15 min</option>'
+    +'<option value="Cool Down and Reflection" data-minutes="5">💫 Cool Down — 5 min</option>';
+  var fixed=['Free Practice','Warm-Up Exercises','Breathing Technique Practice','Main Song','Second Song','Cool Down and Reflection'];
   tasks.forEach(function(t){
-    var clean = t.label.replace(/^[^\w]*/,'').trim();
-    var isDupe = fixedValues.some(function(f){
-      return t.label.toLowerCase().includes(f.toLowerCase());
-    });
-    if (isDupe) return;
-    var o = document.createElement('option'); o.value = t.label; o.textContent = t.label; sel.appendChild(o);
-  });;
-  songs.forEach(function(s){
-    if (tasks.some(function(t){ return t.label.toLowerCase().includes(s.title.toLowerCase()); })) return;
-    var o = document.createElement('option'); o.value = s.title; o.textContent = '🎵 ' + s.title; sel.appendChild(o);
+    var isDupe=fixed.some(function(f){ return t.label.toLowerCase().includes(f.toLowerCase()); });
+    if(isDupe) return;
+    var o=document.createElement('option'); o.value=t.label; o.textContent=t.label; sel.appendChild(o);
   });
-  if ([...sel.options].some(function(o){ return o.value === cur; })) sel.value = cur;
+  songs.forEach(function(s){
+    if(tasks.some(function(t){ return t.label.toLowerCase().includes(s.title.toLowerCase()); })) return;
+    var o=document.createElement('option'); o.value=s.title; o.textContent='🎵 '+s.title; sel.appendChild(o);
+  });
+  if([...sel.options].some(function(o){ return o.value===cur; })) sel.value=cur;
 }
 
-// ── TIMER ───────────────────────────────────────────
+function handleSongSelectChange(val) {
+  var sel=document.getElementById('songSelect');
+  var mins=sel.options[sel.selectedIndex].getAttribute('data-minutes');
+  if(mins){ practiceMin=parseInt(mins); timerTotal=practiceMin*60; timerLeft=timerTotal; document.getElementById('timerBadge').textContent=practiceMin+' min'; resetTimer(); }
+}
+
+// ── TIMER ────────────────────────────────────────────
 function updateTimerDisplay() {
-  var m = Math.floor(timerLeft/60).toString().padStart(2,'0');
-  var s = (timerLeft%60).toString().padStart(2,'0');
-  document.getElementById('timerDisplay').textContent = m + ':' + s;
-  var pct = 1 - timerLeft/timerTotal;
-  document.getElementById('ringProg').style.strokeDashoffset = 534 - pct*534;
-  var emojis = ['🌸','🎵','✨','🌟','🎶','💖'];
-  document.getElementById('timerEmoji').textContent = emojis[Math.min(Math.floor(pct*emojis.length), emojis.length-1)];
+  var m=Math.floor(timerLeft/60).toString().padStart(2,'0');
+  var s=(timerLeft%60).toString().padStart(2,'0');
+  document.getElementById('timerDisplay').textContent=m+':'+s;
+  var pct=1-timerLeft/timerTotal;
+  document.getElementById('ringProg').style.strokeDashoffset=534-pct*534;
+  var emojis=['🌸','🎵','✨','🌟','🎶','💖'];
+  document.getElementById('timerEmoji').textContent=emojis[Math.min(Math.floor(pct*emojis.length),emojis.length-1)];
 }
 function startTimer() {
-  if (timerDone || timerRunning) return;
-  timerRunning = true;
-  document.getElementById('startBtn').style.display = 'none';
-  document.getElementById('pauseBtn').style.display = '';
-  timerInterval = setInterval(function(){
+  if(timerDone||timerRunning) return;
+  timerRunning=true;
+  document.getElementById('startBtn').style.display='none';
+  document.getElementById('pauseBtn').style.display='';
+  timerInterval=setInterval(function(){
     timerLeft--; updateTimerDisplay();
-    if (timerLeft <= 0){ clearInterval(timerInterval); timerRunning=false; timerDone=true; onTimerComplete(); }
-  }, 1000);
+    if(timerLeft<=0){ clearInterval(timerInterval); timerRunning=false; timerDone=true; onTimerComplete(); }
+  },1000);
 }
 function pauseTimer() {
-  if (!timerRunning) return;
-  clearInterval(timerInterval); timerRunning = false;
-  document.getElementById('startBtn').style.display = '';
-  document.getElementById('startBtn').textContent = '▶ Resume';
-  document.getElementById('pauseBtn').style.display = 'none';
+  if(!timerRunning) return;
+  clearInterval(timerInterval); timerRunning=false;
+  document.getElementById('startBtn').style.display=''; document.getElementById('startBtn').textContent='▶ Resume';
+  document.getElementById('pauseBtn').style.display='none';
 }
 function resetTimer() {
   clearInterval(timerInterval); timerRunning=false; timerDone=false; timerLeft=timerTotal;
@@ -610,33 +592,31 @@ function onTimerComplete() {
   document.getElementById('pauseBtn').style.display='none';
   document.getElementById('timerDisplay').classList.add('done-color');
   document.getElementById('ringProg').style.stroke='#A8E6CF';
-  var song = document.getElementById('songSelect').value;
-  var mins = Math.round(timerTotal/60);
-  document.getElementById('completionMsg').textContent =
-    'You practiced "' + song + '" for ' + mins + ' minute' + (mins!==1?'s':'') + '! Keep shining, superstar! 💖';
+  var song=document.getElementById('songSelect').value;
+  var mins=Math.round(timerTotal/60);
+  document.getElementById('completionMsg').textContent='You practiced "'+song+'" for '+mins+' minute'+(mins!==1?'s':'')+' ! Keep shining, superstar! 💖';
   document.getElementById('completeBanner').classList.add('show');
   markTodayPracticed();
 }
 function openCustom() {
-  var p = document.getElementById('customPanel');
-  p.style.display = p.style.display==='none' ? 'block' : 'none';
+  var p=document.getElementById('customPanel');
+  p.style.display=p.style.display==='none'?'block':'none';
 }
 function applyCustom() {
-  var val = parseInt(document.getElementById('customMin').value)||20;
-  practiceMin = Math.max(1,Math.min(120,val));
-  localStorage.setItem('vp_minutes', practiceMin);
-  timerTotal = practiceMin*60;
-  document.getElementById('timerBadge').textContent = practiceMin + ' min';
+  var val=parseInt(document.getElementById('customMin').value)||20;
+  practiceMin=Math.max(1,Math.min(120,val));
+  localStorage.setItem('vp_minutes',practiceMin);
+  timerTotal=practiceMin*60; document.getElementById('timerBadge').textContent=practiceMin+' min';
   resetTimer(); document.getElementById('customPanel').style.display='none';
 }
 
-// ── WEEK ────────────────────────────────────────────
+// ── WEEK ─────────────────────────────────────────────
 function markTodayPracticed() {
-  weekData[new Date().toISOString().slice(0,10)] = true;
-  localStorage.setItem('vp_week', JSON.stringify(weekData)); renderWeek();
+  weekData[new Date().toISOString().slice(0,10)]=true;
+  localStorage.setItem('vp_week',JSON.stringify(weekData)); renderWeek();
 }
 function renderWeek() {
-  var wrap = document.getElementById('weekDots'); wrap.innerHTML='';
+  var wrap=document.getElementById('weekDots'); wrap.innerHTML='';
   var today=new Date(), monday=new Date(today);
   monday.setDate(today.getDate()-((today.getDay()+6)%7));
   ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function(lbl,d){
@@ -648,99 +628,67 @@ function renderWeek() {
     wrap.appendChild(dot);
   });
 }
-function handleSongSelectChange(val) {
-  var sel = document.getElementById('songSelect');
-  var selected = sel.options[sel.selectedIndex];
-  var mins = selected.getAttribute('data-minutes');
-  if (mins) {
-    practiceMin = parseInt(mins);
-    timerTotal = practiceMin * 60;
-    timerLeft = timerTotal;
-    document.getElementById('timerBadge').textContent = practiceMin + ' min';
-    resetTimer();
-  }
-}
-// ── NOTES ───────────────────────────────────────────
+
+// ── NOTES ────────────────────────────────────────────
 function saveNote() {
-  notes=document.getElementById('noteArea').value;
-  localStorage.setItem('vp_notes',notes);
+  notes=document.getElementById('noteArea').value; localStorage.setItem('vp_notes',notes);
   var btn=document.querySelector('.save-note-row button');
-  btn.textContent='✅ Saved!'; setTimeout(function(){btn.textContent='💾 Save Note';},1800);
+  btn.textContent='✅ Saved!'; setTimeout(function(){ btn.textContent='💾 Save Note'; },1800);
 }
 
-// ── LOCAL JOURNAL ───────────────────────────────────
+// ── LOCAL JOURNAL ────────────────────────────────────
 function pickMood(btn) {
   btn.parentElement.querySelectorAll('.form-tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  selectedMood = btn.dataset.mood;
+  btn.classList.add('active'); selectedMood=btn.dataset.mood;
 }
 function saveLocalJournal() {
-  var text = document.getElementById('localJournalText').value.trim();
-  if (!text){ alert('✏️ Write something first!'); return; }
-  localJournal.unshift({
-    id: Date.now(),
-    date: new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),
-    text: text, mood: selectedMood
-  });
-  localStorage.setItem('vp_ljrnl', JSON.stringify(localJournal));
-  document.getElementById('localJournalText').value = '';
-  selectedMood = '';
-  renderLocalJournal();
+  var text=document.getElementById('localJournalText').value.trim();
+  if(!text){ alert('✏️ Write something first!'); return; }
+  localJournal.unshift({id:Date.now(),date:new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),text:text,mood:selectedMood});
+  localStorage.setItem('vp_ljrnl',JSON.stringify(localJournal));
+  document.getElementById('localJournalText').value=''; selectedMood=''; renderLocalJournal();
 }
 function deleteLocalEntry(id) {
-  localJournal = localJournal.filter(function(e){ return e.id !== id; });
-  localStorage.setItem('vp_ljrnl', JSON.stringify(localJournal));
-  renderLocalJournal();
+  localJournal=localJournal.filter(function(e){ return e.id!==id; });
+  localStorage.setItem('vp_ljrnl',JSON.stringify(localJournal)); renderLocalJournal();
 }
 function renderLocalJournal() {
-  var wrap = document.getElementById('localJournalList');
-  if (!localJournal.length){
-    wrap.innerHTML='<div style="text-align:center;color:#c4a0cc;font-size:.86rem;padding:14px 0;">No local entries yet. 🌸</div>'; return;
-  }
-  wrap.innerHTML = localJournal.map(function(e){
-    return '<div style="background:linear-gradient(90deg,#fff7fb,#f4f0ff);border-radius:14px;padding:12px 14px;margin-bottom:9px;border:1.5px solid #f0ddf5;position:relative;">'
-      +'<div style="font-size:.75rem;color:#b08fbc;font-weight:700;margin-bottom:4px;">📅 '+e.date
+  var wrap=document.getElementById('localJournalList');
+  if(!localJournal.length){ wrap.innerHTML='<div style="text-align:center;color:#c4a0cc;font-size:.84rem;padding:14px 0;">No local entries yet. 🌸</div>'; return; }
+  wrap.innerHTML=localJournal.map(function(e){
+    return '<div style="background:linear-gradient(90deg,#fff7fb,#f4f0ff);border-radius:13px;padding:12px 13px;margin-bottom:8px;border:1.5px solid #f0ddf5;position:relative;">'
+      +'<div style="font-size:.74rem;color:#b08fbc;font-weight:700;margin-bottom:4px;">📅 '+e.date
       +'<button style="background:none;border:none;cursor:pointer;font-size:.8rem;opacity:.4;margin-left:5px;" onclick="deleteLocalEntry('+e.id+')">🗑️</button></div>'
       +(e.mood?'<div style="font-size:1.1rem;position:absolute;top:10px;right:12px;">'+e.mood+'</div>':'')
-      +'<div style="font-size:.87rem;line-height:1.5;color:var(--text);">'+e.text.replace(/\n/g,'<br>')+'</div>'
+      +'<div style="font-size:.86rem;line-height:1.5;color:var(--text);">'+e.text.replace(/\n/g,'<br>')+'</div>'
       +'</div>';
   }).join('');
 }
 
-// ── SONGS ───────────────────────────────────────────
+// ── SONGS ────────────────────────────────────────────
 function saveSongs(){ localStorage.setItem('vp_songs',JSON.stringify(songs)); updateSongSelect(); }
 function addSong() {
   var title=document.getElementById('newSongTitle').value.trim();
   var artist=document.getElementById('newSongArtist').value.trim();
   var status=document.getElementById('newSongStatus').value;
   var link=document.getElementById('newSongLink').value.trim();
-  if (!title){ alert('🎵 Please enter a song title!'); return; }
-  if (link && !link.startsWith('http')) link='https://'+link;
+  if(!title){ alert('🎵 Please enter a song title!'); return; }
+  if(link&&!link.startsWith('http')) link='https://'+link;
   songs.push({id:Date.now(),title:title,artist:artist,status:status,link:link,confidence:0,notes:''});
   ['newSongTitle','newSongArtist','newSongLink'].forEach(function(id){ document.getElementById(id).value=''; });
   document.getElementById('newSongStatus').value='learning';
   saveSongs(); renderSongs();
 }
 function deleteSong(id){ songs=songs.filter(function(s){ return s.id!==id; }); saveSongs(); renderSongs(); }
-function setSongConfidence(id,stars){
-  var s=songs.find(function(s){ return s.id===id; }); if(!s)return;
-  s.confidence=stars; saveSongs(); renderSongs();
-}
-function setSongStatus(id,val){
-  var s=songs.find(function(s){ return s.id===id; }); if(!s)return;
-  s.status=val; saveSongs(); renderSongs();
-}
-function setSongNotes(id,val){
-  var s=songs.find(function(s){ return s.id===id; }); if(!s)return;
-  s.notes=val; saveSongs();
-}
+function setSongConfidence(id,stars){ var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.confidence=stars; saveSongs(); renderSongs(); }
+function setSongStatus(id,val){ var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.status=val; saveSongs(); renderSongs(); }
+function setSongNotes(id,val){ var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.notes=val; saveSongs(); }
 function setSongLink(id,val){
-  val=val.trim(); if(val&&!val.startsWith('http'))val='https://'+val;
-  var s=songs.find(function(s){ return s.id===id; }); if(!s)return;
-  s.link=val; saveSongs(); renderSongs();
+  val=val.trim(); if(val&&!val.startsWith('http')) val='https://'+val;
+  var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.link=val; saveSongs(); renderSongs();
 }
 function renderSongs(){
-  var grid=document.getElementById('songsGrid'),noMsg=document.getElementById('noSongs');
+  var grid=document.getElementById('songsGrid'), noMsg=document.getElementById('noSongs');
   if(!songs.length){ grid.innerHTML=''; grid.appendChild(noMsg); noMsg.style.display='block'; return; }
   noMsg.style.display='none';
   var icons=['🎵','🎶','🎼','🎤','🌟','💫','🎀','🌸'];
@@ -754,7 +702,7 @@ function renderSongs(){
       return '<option value="'+v+'"'+(s.status===v?' selected':'')+'>'+{learning:'🌱 Learning',polishing:'✨ Polishing',performance:'🎭 Performance Ready'}[v]+'</option>';
     }).join('');
     var linkSection=s.link
-      ?'<div style="margin-top:7px;display:flex;align-items:center;gap:7px;">'
+      ?'<div style="margin-top:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;">'
         +'<a class="task-link-anchor" href="'+s.link+'" target="_blank" rel="noopener">🔗 Open Resource</a>'
         +'<button class="btn-icon" onclick="setSongLink('+s.id+',\'\')" title="Remove">✕</button></div>'
       :'<input class="song-link-field" placeholder="🔗 Paste resource URL…"'
@@ -768,7 +716,7 @@ function renderSongs(){
       +'</div></div></div>'
       +'<div class="confidence-row"><div class="confidence-label">My Confidence Level:</div>'
       +'<div class="star-row">'+stars+'</div></div>'
-      +'<select class="form-select" style="margin-top:9px;width:100%;" onchange="setSongStatus('+s.id+',this.value)">'+statusOpts+'</select>'
+      +'<select class="form-select" style="margin-top:8px;width:100%;" onchange="setSongStatus('+s.id+',this.value)">'+statusOpts+'</select>'
       +linkSection
       +'<textarea class="song-notes-field" placeholder="Notes: tricky parts, teacher tips, lyrics to memorize…"'
       +' onblur="setSongNotes('+s.id+',this.value)">'+(s.notes||'')+'</textarea>'
@@ -778,145 +726,97 @@ function renderSongs(){
       +'</div></div>';
   }).join('');
 }
+
 // ── SCHEDULE ─────────────────────────────────────────
-const DAYS_OF_WEEK = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-
-let schedule = JSON.parse(localStorage.getItem('vp_schedule')) || {
-  Monday:    { main:'', second:'' },
-  Tuesday:   { main:'', second:'' },
-  Wednesday: { main:'', second:'' },
-  Thursday:  { main:'', second:'' },
-  Friday:    { main:'', second:'' },
-  Saturday:  { main:'', second:'' },
-  Sunday:    { main:'', second:'' }
-};
-let scheduleEditMode = false;
-
-function saveSchedule() {
-  localStorage.setItem('vp_schedule', JSON.stringify(schedule));
-}
+function saveSchedule(){ localStorage.setItem('vp_schedule',JSON.stringify(schedule)); }
 
 function toggleScheduleEdit() {
-  if (!scheduleEditMode) {
-    var pw = prompt('🔐 Enter teacher password to edit the schedule:');
-    if (pw !== '55Kempo11!') {
-      alert('❌ Incorrect password!');
-      return;
-    }
+  if(!scheduleEditMode){
+    var pw=prompt('🔐 Enter teacher password to edit the schedule:');
+    if(pw!=='55Kempo11!'){ alert('❌ Incorrect password!'); return; }
   }
-  scheduleEditMode = !scheduleEditMode;
-  document.getElementById('schedEditNote').textContent = scheduleEditMode ? '🔓 Editing — changes save automatically' : '';
+  scheduleEditMode=!scheduleEditMode;
+  document.getElementById('schedEditNote').textContent=scheduleEditMode?'🔓 Editing — changes save automatically':'';
   renderSchedule();
 }
 
-function getTodayName() {
+function getTodayName(){
   return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
 }
 
-function applyTodaysSongs() {
-  const today = getTodayName();
-  const daySched = schedule[today];
-  if (!daySched) return;
-
-  tasks.forEach(function(t, i) {
-    if (t.label.startsWith('🌟') && daySched.main) {
-      tasks[i].label = '🌟 Main Song — ' + daySched.main;
-    }
-    if (t.label.startsWith('🎤') && daySched.second) {
-      tasks[i].label = '🎤 Second Song — ' + daySched.second;
-    }
+function applyTodaysSongs(){
+  var today=getTodayName(), daySched=schedule[today]; if(!daySched) return;
+  tasks.forEach(function(t,i){
+    if(t.label.startsWith('🌟')&&daySched.main) tasks[i].label='🌟 Main Song — '+daySched.main;
+    if(t.label.startsWith('🎤')&&daySched.second) tasks[i].label='🎤 Second Song — '+daySched.second;
   });
-  saveTasks();
-  renderTasks();
+  saveTasks(); renderTasks();
 }
 
-function renderSchedule() {
-  const today = getTodayName();
-  const wrap = document.getElementById('scheduleView');
+function renderSchedule(){
+  var today=getTodayName(), wrap=document.getElementById('scheduleView');
 
-  if (scheduleEditMode) {
-    // ── EDIT MODE: stacked cards ──
-    wrap.innerHTML = DAYS_OF_WEEK.map(function(day) {
-      const s = schedule[day] || { main:'', second:'', pdf:'', pdf2:'' };
-      const isToday = day === today;
-      return '<div style="background:' + (isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa') + ';border-radius:16px;padding:14px 16px;margin-bottom:10px;border:' + (isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5') + ';">'
-        + '<div style="font-weight:800;font-size:.95rem;margin-bottom:10px;color:var(--text);">'
-        + (isToday ? '📍 ' : '') + day
-        + (isToday ? ' <span style="font-size:.75rem;background:var(--pink);color:#fff;border-radius:10px;padding:1px 9px;">Today</span>' : '')
-        + '</div>'
-        + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
-        + '<input style="flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-        + 'placeholder="🌟 Main Song" value="' + (s.main||'') + '" '
-        + 'oninput="schedule[\'' + day + '\'].main=this.value;saveSchedule();" />'
-        + '<input style="flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-        + 'placeholder="🎤 Second Song" value="' + (s.second||'') + '" '
-        + 'oninput="schedule[\'' + day + '\'].second=this.value;saveSchedule();" />'
-        + '</div>'
-        + '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-        + 'placeholder="📄 Main Song PDF or resource URL (optional)" value="' + (s.pdf||'') + '" '
-        + 'oninput="schedule[\'' + day + '\'].pdf=this.value;saveSchedule();" />'
-        + '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-        + 'placeholder="📄 Second Song PDF or resource URL (optional)" value="' + (s.pdf2||'') + '" '
-        + 'oninput="schedule[\'' + day + '\'].pdf2=this.value;saveSchedule();" />'
-        + '</div>';
+  if(scheduleEditMode){
+    wrap.innerHTML=DAYS_OF_WEEK.map(function(day){
+      var s=schedule[day]||{main:'',second:'',pdf:'',pdf2:''};
+      var isToday=day===today;
+      var bg=isToday?'linear-gradient(90deg,#fff0f8,#f3eeff)':'#fafafa';
+      var border=isToday?'2px solid var(--pink)':'1.5px solid #f0ddf5';
+      var inp='border:2px solid var(--pink-lt);border-radius:10px;padding:8px 11px;font-family:\'Comfortaa\',sans-serif;font-size:.85rem;color:var(--text);background:#fff7fa;outline:none;width:100%;margin-top:7px;';
+      return '<div style="background:'+bg+';border-radius:14px;padding:13px 14px;margin-bottom:9px;border:'+border+';">'
+        +'<div style="font-weight:700;font-size:.92rem;margin-bottom:9px;color:var(--text);">'
+        +(isToday?'📍 ':'')+day+(isToday?' <span style="font-size:.72rem;background:var(--pink);color:#fff;border-radius:8px;padding:1px 8px;">Today</span>':'')
+        +'</div>'
+        +'<input style="'+inp+'" placeholder="🌟 Main Song" value="'+(s.main||'')
+        +'" oninput="schedule[\''+day+'\'].main=this.value;saveSchedule();" />'
+        +'<input style="'+inp+'" placeholder="🎤 Second Song" value="'+(s.second||'')
+        +'" oninput="schedule[\''+day+'\'].second=this.value;saveSchedule();" />'
+        +'<input style="'+inp+'" placeholder="📄 Main Song PDF or resource URL (optional)" value="'+(s.pdf||'')
+        +'" oninput="schedule[\''+day+'\'].pdf=this.value;saveSchedule();" />'
+        +'<input style="'+inp+'" placeholder="📄 Second Song PDF or resource URL (optional)" value="'+(s.pdf2||'')
+        +'" oninput="schedule[\''+day+'\'].pdf2=this.value;saveSchedule();" />'
+        +'</div>';
     }).join('');
-
   } else {
-    // ── VIEW MODE: pretty table ──
-    wrap.innerHTML =
-      '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">'
-      + '<table style="width:100%;border-collapse:separate;border-spacing:0 8px;">'
-      + '<thead>'
-      + '<tr>'
-      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">DAY</th>'
-      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">🌟 MAIN SONG</th>'
-      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">🎤 SECOND SONG</th>'
-      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">📄 RESOURCES</th>'
-      + '</tr>'
-      + '</thead>'
-      + '<tbody>'
-      + DAYS_OF_WEEK.map(function(day) {
-          const s = schedule[day] || { main:'', second:'', pdf:'', pdf2:'' };
-          const isToday = day === today;
-          const hasMain   = s.main   && s.main.trim();
-          const hasSecond = s.second && s.second.trim();
-          const hasPdf    = s.pdf    && s.pdf.trim();
-          const hasPdf2   = s.pdf2   && s.pdf2.trim();
-          const rowBg     = isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa';
-          const rowBorder = isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5';
-          const cellStyle = 'padding:12px;vertical-align:middle;';
-          return '<tr>'
-            // Day cell
-            + '<td style="' + cellStyle + 'background:' + rowBg + ';border:' + rowBorder + ';border-right:none;border-radius:16px 0 0 16px;white-space:nowrap;">'
-            + '<span style="font-weight:800;font-size:.9rem;color:' + (isToday ? 'var(--pink)' : 'var(--text)') + ';">'
-            + (isToday ? '📍 ' : '') + day.slice(0,3).toUpperCase()
-            + '</span>'
-            + (isToday ? '<br><span style="font-size:.7rem;background:var(--pink);color:#fff;border-radius:8px;padding:1px 7px;">Today</span>' : '')
-            + '</td>'
-            // Main song cell
-            + '<td style="' + cellStyle + 'background:' + rowBg + ';border-top:' + rowBorder + ';border-bottom:' + rowBorder + ';border-left:none;border-right:none;">'
-            + '<span style="font-size:.88rem;font-weight:' + (hasMain ? '700' : '400') + ';color:' + (hasMain ? 'var(--text)' : '#ccc') + ';">'
-            + (hasMain ? s.main : '—')
-            + '</span></td>'
-            // Second song cell
-            + '<td style="' + cellStyle + 'background:' + rowBg + ';border-top:' + rowBorder + ';border-bottom:' + rowBorder + ';border-left:none;border-right:none;">'
-            + '<span style="font-size:.88rem;font-weight:' + (hasSecond ? '700' : '400') + ';color:' + (hasSecond ? 'var(--text)' : '#ccc') + ';">'
-            + (hasSecond ? s.second : '—')
-            + '</span></td>'
-            // Resources cell
-            + '<td style="' + cellStyle + 'background:' + rowBg + ';border:' + rowBorder + ';border-left:none;border-radius:0 16px 16px 0;">'
-            + '<div style="display:flex;flex-direction:column;gap:5px;">'
-            + (hasPdf  ? '<a href="' + s.pdf  + '" target="_blank" rel="noopener" style="font-size:.76rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 9px;border:1.5px solid var(--pink-lt);white-space:nowrap;">📄 Main PDF</a>' : '')
-            + (hasPdf2 ? '<a href="' + s.pdf2 + '" target="_blank" rel="noopener" style="font-size:.76rem;font-weight:700;color:#7a4fa0;text-decoration:none;background:#f3eeff;border-radius:8px;padding:3px 9px;border:1.5px solid var(--lavender);white-space:nowrap;">📄 2nd PDF</a>' : '')
-            + (!hasPdf && !hasPdf2 ? '<span style="font-size:.82rem;color:#ccc;">—</span>' : '')
-            + '</div></td>'
-            + '</tr>';
-        }).join('')
-      + '</tbody>'
-      + '</table>'
-      + '</div>';
+    var thStyle='text-align:left;font-size:.72rem;font-weight:700;color:#b08fbc;padding:3px 9px;';
+    var html='<div class="sched-table-wrap"><table class="sched-table"><thead><tr>'
+      +'<th style="'+thStyle+'">DAY</th>'
+      +'<th style="'+thStyle+'">🌟 MAIN</th>'
+      +'<th style="'+thStyle+'">🎤 SECOND</th>'
+      +'<th style="'+thStyle+'">📄 LINKS</th>'
+      +'</tr></thead><tbody>';
+
+    DAYS_OF_WEEK.forEach(function(day){
+      var s=schedule[day]||{main:'',second:'',pdf:'',pdf2:''};
+      var isToday=day===today;
+      var hasMain=s.main&&s.main.trim();
+      var hasSecond=s.second&&s.second.trim();
+      var hasPdf=s.pdf&&s.pdf.trim();
+      var hasPdf2=s.pdf2&&s.pdf2.trim();
+      var bg=isToday?'linear-gradient(90deg,#fff0f8,#f3eeff)':'#fafafa';
+      var border=isToday?'2px solid var(--pink)':'1.5px solid #f0ddf5';
+      var cs='class="sched-cell" style="background:'+bg+';border-top:'+border+';border-bottom:'+border+';border-left:none;border-right:none;"';
+      html+='<tr>'
+        +'<td class="sched-cell sched-day-cell" style="background:'+bg+';border:'+border+';border-right:none;">'
+        +'<span style="font-weight:700;font-size:.86rem;color:'+(isToday?'var(--pink)':'var(--text)')+';">'
+        +(isToday?'📍 ':'')+day.slice(0,3).toUpperCase()+'</span>'
+        +(isToday?'<br><span style="font-size:.68rem;background:var(--pink);color:#fff;border-radius:7px;padding:1px 6px;">Today</span>':'')
+        +'</td>'
+        +'<td '+cs+'><span style="font-size:.84rem;font-weight:'+(hasMain?'700':'400')+';color:'+(hasMain?'var(--text)':'#ccc')+'">'+(hasMain?s.main:'—')+'</span></td>'
+        +'<td '+cs+'><span style="font-size:.84rem;font-weight:'+(hasSecond?'700':'400')+';color:'+(hasSecond?'var(--text)':'#ccc')+'">'+(hasSecond?s.second:'—')+'</span></td>'
+        +'<td class="sched-cell sched-last-cell" style="background:'+bg+';border:'+border+';border-left:none;">'
+        +'<div style="display:flex;flex-direction:column;gap:4px;">'
+        +(hasPdf?'<a href="'+s.pdf+'" target="_blank" rel="noopener" style="font-size:.73rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:7px;padding:2px 8px;border:1.5px solid var(--pink-lt);white-space:nowrap;">📄 Main</a>':'')
+        +(hasPdf2?'<a href="'+s.pdf2+'" target="_blank" rel="noopener" style="font-size:.73rem;font-weight:700;color:#7a4fa0;text-decoration:none;background:#f3eeff;border-radius:7px;padding:2px 8px;border:1.5px solid var(--lavender);white-space:nowrap;">📄 2nd</a>':'')
+        +(!hasPdf&&!hasPdf2?'<span style="font-size:.8rem;color:#ccc;">—</span>':'')
+        +'</div></td></tr>';
+    });
+    html+='</tbody></table></div>';
+    wrap.innerHTML=html;
   }
 }
+
+// ── RUN ──────────────────────────────────────────────
 renderSchedule();
 init();
 applyTodaysSongs();
