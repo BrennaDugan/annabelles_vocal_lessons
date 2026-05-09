@@ -171,6 +171,7 @@
     <button class="tab-btn"        id="tbtn-checkin"  onclick="switchTab('checkin',this)">✅ Check-In</button>
     <button class="tab-btn"        id="tbtn-journal"  onclick="switchTab('journal',this)">📔 Journal</button>
     <button class="tab-btn"        id="tbtn-songs"    onclick="switchTab('songs',this)">🎶 Songs</button>
+    <button class="tab-btn"        id="tbtn-schedule" onclick="switchTab('schedule',this)">📅 Schedule</button>
   </div>
 
   <!-- ══════════ TAB: PRACTICE ══════════ -->
@@ -349,7 +350,24 @@
       </div>
     </div>
   </div>
+<!-- ══════════ TAB: SCHEDULE ══════════ -->
+<div id="tab-schedule" class="tab-panel">
+  <div class="card">
+    <div class="card-title">📅 Your Weekly Practice Schedule</div>
+    <p style="font-size:.84rem;color:#b08fbc;font-weight:600;margin-bottom:16px;">
+      Your teacher sets your songs for each day below. When you open the Practice tab,
+      your Main Song and Second Song tasks update automatically! 🌸
+    </p>
 
+    <!-- Teacher edit toggle -->
+    <div style="margin-bottom:16px;">
+      <button class="btn btn-lavender btn-sm" onclick="toggleScheduleEdit()">✏️ Edit Schedule (Teacher)</button>
+      <span id="schedEditNote" style="font-size:.78rem;color:#c4a0cc;margin-left:8px;font-weight:600;"></span>
+    </div>
+
+    <div id="scheduleView"></div>
+  </div>
+</div>
   <footer>🌸 Made with love for your vocal journey 🌸</footer>
 </div>
 
@@ -702,7 +720,91 @@ function renderSongs(){
       +'</div></div>';
   }).join('');
 }
+// ── SCHEDULE ─────────────────────────────────────────
+const DAYS_OF_WEEK = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
+let schedule = JSON.parse(localStorage.getItem('vp_schedule')) || {
+  Monday:    { main:'', second:'' },
+  Tuesday:   { main:'', second:'' },
+  Wednesday: { main:'', second:'' },
+  Thursday:  { main:'', second:'' },
+  Friday:    { main:'', second:'' },
+  Saturday:  { main:'', second:'' },
+  Sunday:    { main:'', second:'' }
+};
+let scheduleEditMode = false;
+
+function saveSchedule() {
+  localStorage.setItem('vp_schedule', JSON.stringify(schedule));
+}
+
+function toggleScheduleEdit() {
+  scheduleEditMode = !scheduleEditMode;
+  document.getElementById('schedEditNote').textContent = scheduleEditMode ? '🔓 Editing — changes save automatically' : '';
+  renderSchedule();
+}
+
+function getTodayName() {
+  return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
+}
+
+function applyTodaysSongs() {
+  const today = getTodayName();
+  const daySched = schedule[today];
+  if (!daySched) return;
+
+  tasks.forEach(function(t, i) {
+    if (t.label.startsWith('🌟') && daySched.main) {
+      tasks[i].label = '🌟 Main Song — ' + daySched.main;
+    }
+    if (t.label.startsWith('🎤') && daySched.second) {
+      tasks[i].label = '🎤 Second Song — ' + daySched.second;
+    }
+  });
+  saveTasks();
+  renderTasks();
+}
+
+function renderSchedule() {
+  const today = getTodayName();
+  const wrap = document.getElementById('scheduleView');
+
+  wrap.innerHTML = DAYS_OF_WEEK.map(function(day) {
+    const s = schedule[day] || { main:'', second:'' };
+    const isToday = day === today;
+
+    if (scheduleEditMode) {
+      return '<div style="background:' + (isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa') + ';border-radius:16px;padding:14px 16px;margin-bottom:10px;border:' + (isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5') + ';">'
+        + '<div style="font-weight:800;font-size:.95rem;margin-bottom:10px;color:var(--text);">'
+        + (isToday ? '📍 ' : '') + day + (isToday ? ' <span style="font-size:.75rem;background:var(--pink);color:#fff;border-radius:10px;padding:1px 9px;">Today</span>' : '')
+        + '</div>'
+        + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+        + '<input style="flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
+        + 'placeholder="🌟 Main Song" value="' + (s.main||'') + '" '
+        + 'oninput="schedule[\'' + day + '\'].main=this.value;saveSchedule();" />'
+        + '<input style="flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
+        + 'placeholder="🎤 Second Song" value="' + (s.second||'') + '" '
+        + 'oninput="schedule[\'' + day + '\'].second=this.value;saveSchedule();" />'
+        + '</div></div>';
+    } else {
+      const hasMain   = s.main   && s.main.trim();
+      const hasSecond = s.second && s.second.trim();
+      return '<div style="background:' + (isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa') + ';border-radius:16px;padding:14px 16px;margin-bottom:10px;border:' + (isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5') + ';">'
+        + '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">'
+        + '<div style="font-weight:800;font-size:.95rem;color:var(--text);">'
+        + (isToday ? '📍 ' : '') + day
+        + (isToday ? ' <span style="font-size:.75rem;background:var(--pink);color:#fff;border-radius:10px;padding:1px 9px;">Today</span>' : '')
+        + '</div>'
+        + (isToday && (hasMain || hasSecond) ? '<button class="btn btn-pink btn-sm" onclick="applyTodaysSongs()">✨ Load into Tasks</button>' : '')
+        + '</div>'
+        + '<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px;">'
+        + '<div style="font-size:.87rem;font-weight:600;color:' + (hasMain ? 'var(--text)' : '#ccc') + ';">🌟 Main Song: ' + (hasMain ? '<strong>' + s.main + '</strong>' : '<em>not set</em>') + '</div>'
+        + '<div style="font-size:.87rem;font-weight:600;color:' + (hasSecond ? 'var(--text)' : '#ccc') + ';">🎤 Second Song: ' + (hasSecond ? '<strong>' + s.second + '</strong>' : '<em>not set</em>') + '</div>'
+        + '</div></div>';
+    }
+  }).join('');
+}
+renderSchedule();  
 init();
 </script>
 </body>
