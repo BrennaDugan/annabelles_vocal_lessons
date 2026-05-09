@@ -805,14 +805,15 @@ function renderSchedule() {
   const today = getTodayName();
   const wrap = document.getElementById('scheduleView');
 
-  wrap.innerHTML = DAYS_OF_WEEK.map(function(day) {
-    const s = schedule[day] || { main:'', second:'' };
-    const isToday = day === today;
-
-    if (scheduleEditMode) {
+  if (scheduleEditMode) {
+    // ── EDIT MODE: stacked cards ──
+    wrap.innerHTML = DAYS_OF_WEEK.map(function(day) {
+      const s = schedule[day] || { main:'', second:'', pdf:'', pdf2:'' };
+      const isToday = day === today;
       return '<div style="background:' + (isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa') + ';border-radius:16px;padding:14px 16px;margin-bottom:10px;border:' + (isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5') + ';">'
         + '<div style="font-weight:800;font-size:.95rem;margin-bottom:10px;color:var(--text);">'
-        + (isToday ? '📍 ' : '') + day + (isToday ? ' <span style="font-size:.75rem;background:var(--pink);color:#fff;border-radius:10px;padding:1px 9px;">Today</span>' : '')
+        + (isToday ? '📍 ' : '') + day
+        + (isToday ? ' <span style="font-size:.75rem;background:var(--pink);color:#fff;border-radius:10px;padding:1px 9px;">Today</span>' : '')
         + '</div>'
         + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
         + '<input style="flex:1;min-width:130px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
@@ -822,33 +823,71 @@ function renderSchedule() {
         + 'placeholder="🎤 Second Song" value="' + (s.second||'') + '" '
         + 'oninput="schedule[\'' + day + '\'].second=this.value;saveSchedule();" />'
         + '</div>'
-+ '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-+ 'placeholder="📄 Main Song PDF or resource URL (optional)" value="' + (s.pdf||'') + '" '
-+ 'oninput="schedule[\'' + day + '\'].pdf=this.value;saveSchedule();" />'
-+ '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
-+ 'placeholder="📄 Second Song PDF or resource URL (optional)" value="' + (s.pdf2||'') + '" '
-+ 'oninput="schedule[\'' + day + '\'].pdf2=this.value;saveSchedule();" />'
-+ '</div>';
-    } else {
-      const hasMain   = s.main   && s.main.trim();
-      const hasSecond = s.second && s.second.trim();
-      return '<div style="background:' + (isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa') + ';border-radius:16px;padding:14px 16px;margin-bottom:10px;border:' + (isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5') + ';">'
-        + '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">'
-        + '<div style="font-weight:800;font-size:.95rem;color:var(--text);">'
-        + (isToday ? '📍 ' : '') + day
-        + (isToday ? ' <span style="font-size:.75rem;background:var(--pink);color:#fff;border-radius:10px;padding:1px 9px;">Today</span>' : '')
-        + '</div>'
-        + (isToday && (hasMain || hasSecond) ? '<button class="btn btn-pink btn-sm" onclick="applyTodaysSongs()">✨ Load into Tasks</button>' : '')
-        + '</div>'
-        + '<div style="margin-top:9px;display:flex;flex-direction:column;gap:5px;">'
-        + '<div style="font-size:.87rem;font-weight:600;color:' + (hasMain ? 'var(--text)' : '#ccc') + ';">🌟 Main Song: ' + (hasMain ? '<strong>' + s.main + '</strong>' : '<em>not set</em>') + '</div>'
-        + '<div style="font-size:.87rem;font-weight:600;color:' + (hasSecond ? 'var(--text)' : '#ccc') + ';">🎤 Second Song: ' + (hasSecond ? '<strong>' + s.second + '</strong>' : '<em>not set</em>') + '</div>'
-        + ((s.pdf && s.pdf.trim()) || (s.pdf2 && s.pdf2.trim()) ? '<div style="margin-top:7px;display:flex;gap:8px;flex-wrap:wrap;">'
-+ (s.pdf  && s.pdf.trim()  ? '<a href="' + s.pdf  + '" target="_blank" rel="noopener" style="font-size:.82rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 12px;border:1.5px solid var(--pink-lt);">📄 Main Song PDF</a>' : '')
-+ (s.pdf2 && s.pdf2.trim() ? '<a href="' + s.pdf2 + '" target="_blank" rel="noopener" style="font-size:.82rem;font-weight:700;color:var(--lavender);text-decoration:none;background:#f3eeff;border-radius:8px;padding:3px 12px;border:1.5px solid var(--lavender);">📄 Second Song PDF</a>' : '')
-+ '</div>' : '')
-    }
-  }).join('');
+        + '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
+        + 'placeholder="📄 Main Song PDF or resource URL (optional)" value="' + (s.pdf||'') + '" '
+        + 'oninput="schedule[\'' + day + '\'].pdf=this.value;saveSchedule();" />'
+        + '<input style="width:100%;margin-top:8px;border:2px solid var(--pink-lt);border-radius:10px;padding:7px 11px;font-family:\'Nunito\',sans-serif;font-size:.87rem;color:var(--text);background:#fff7fa;outline:none;" '
+        + 'placeholder="📄 Second Song PDF or resource URL (optional)" value="' + (s.pdf2||'') + '" '
+        + 'oninput="schedule[\'' + day + '\'].pdf2=this.value;saveSchedule();" />'
+        + '</div>';
+    }).join('');
+
+  } else {
+    // ── VIEW MODE: pretty table ──
+    wrap.innerHTML =
+      '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">'
+      + '<table style="width:100%;border-collapse:separate;border-spacing:0 8px;">'
+      + '<thead>'
+      + '<tr>'
+      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">DAY</th>'
+      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">🌟 MAIN SONG</th>'
+      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">🎤 SECOND SONG</th>'
+      + '<th style="text-align:left;font-size:.78rem;font-weight:800;color:#b08fbc;padding:4px 12px;">📄 RESOURCES</th>'
+      + '</tr>'
+      + '</thead>'
+      + '<tbody>'
+      + DAYS_OF_WEEK.map(function(day) {
+          const s = schedule[day] || { main:'', second:'', pdf:'', pdf2:'' };
+          const isToday = day === today;
+          const hasMain   = s.main   && s.main.trim();
+          const hasSecond = s.second && s.second.trim();
+          const hasPdf    = s.pdf    && s.pdf.trim();
+          const hasPdf2   = s.pdf2   && s.pdf2.trim();
+          const rowBg     = isToday ? 'linear-gradient(90deg,#fff0f8,#f3eeff)' : '#fafafa';
+          const rowBorder = isToday ? '2px solid var(--pink)' : '1.5px solid #f0ddf5';
+          const cellStyle = 'padding:12px;vertical-align:middle;';
+          return '<tr>'
+            // Day cell
+            + '<td style="' + cellStyle + 'background:' + rowBg + ';border:' + rowBorder + ';border-right:none;border-radius:16px 0 0 16px;white-space:nowrap;">'
+            + '<span style="font-weight:800;font-size:.9rem;color:' + (isToday ? 'var(--pink)' : 'var(--text)') + ';">'
+            + (isToday ? '📍 ' : '') + day.slice(0,3).toUpperCase()
+            + '</span>'
+            + (isToday ? '<br><span style="font-size:.7rem;background:var(--pink);color:#fff;border-radius:8px;padding:1px 7px;">Today</span>' : '')
+            + (isToday && (hasMain || hasSecond) ? '<br><button class="btn btn-pink btn-sm" style="margin-top:5px;font-size:.7rem;padding:3px 8px;" onclick="applyTodaysSongs()">✨ Load</button>' : '')
+            + '</td>'
+            // Main song cell
+            + '<td style="' + cellStyle + 'background:' + rowBg + ';border-top:' + rowBorder + ';border-bottom:' + rowBorder + ';border-left:none;border-right:none;">'
+            + '<span style="font-size:.88rem;font-weight:' + (hasMain ? '700' : '400') + ';color:' + (hasMain ? 'var(--text)' : '#ccc') + ';">'
+            + (hasMain ? s.main : '—')
+            + '</span></td>'
+            // Second song cell
+            + '<td style="' + cellStyle + 'background:' + rowBg + ';border-top:' + rowBorder + ';border-bottom:' + rowBorder + ';border-left:none;border-right:none;">'
+            + '<span style="font-size:.88rem;font-weight:' + (hasSecond ? '700' : '400') + ';color:' + (hasSecond ? 'var(--text)' : '#ccc') + ';">'
+            + (hasSecond ? s.second : '—')
+            + '</span></td>'
+            // Resources cell
+            + '<td style="' + cellStyle + 'background:' + rowBg + ';border:' + rowBorder + ';border-left:none;border-radius:0 16px 16px 0;">'
+            + '<div style="display:flex;flex-direction:column;gap:5px;">'
+            + (hasPdf  ? '<a href="' + s.pdf  + '" target="_blank" rel="noopener" style="font-size:.76rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 9px;border:1.5px solid var(--pink-lt);white-space:nowrap;">📄 Main PDF</a>' : '')
+            + (hasPdf2 ? '<a href="' + s.pdf2 + '" target="_blank" rel="noopener" style="font-size:.76rem;font-weight:700;color:#7a4fa0;text-decoration:none;background:#f3eeff;border-radius:8px;padding:3px 9px;border:1.5px solid var(--lavender);white-space:nowrap;">📄 2nd PDF</a>' : '')
+            + (!hasPdf && !hasPdf2 ? '<span style="font-size:.82rem;color:#ccc;">—</span>' : '')
+            + '</div></td>'
+            + '</tr>';
+        }).join('')
+      + '</tbody>'
+      + '</table>'
+      + '</div>';
+  }
 }
 renderSchedule();
 init();
