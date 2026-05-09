@@ -740,6 +740,13 @@ function saveSchedule() {
 }
 
 function toggleScheduleEdit() {
+  if (!scheduleEditMode) {
+    var pw = prompt('🔐 Enter teacher password to edit the schedule:');
+    if (pw !== '55Kempo11!') {
+      alert('❌ Incorrect password!');
+      return;
+    }
+  }
   scheduleEditMode = !scheduleEditMode;
   document.getElementById('schedEditNote').textContent = scheduleEditMode ? '🔓 Editing — changes save automatically' : '';
   renderSchedule();
