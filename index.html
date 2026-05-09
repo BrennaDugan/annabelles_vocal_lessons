@@ -73,7 +73,7 @@
 
     /* TIMER */
     .timer-wrap{text-align:center;}
-    .timer-circle-outer{display:inline-flex;align-items:center;justify-content:center;width:175px;height:175px;border-radius:50%;background:linear-gradient(135deg,var(--pink-lt),var(--lavender));box-shadow:0 0 0 10px rgba(255,143,171,.15),0 8px 30px rgba(180,100,150,.18);margin:10px auto 14px;position:relative;}
+    .timer-circle-outer{display:inline-flex;align-items:center;justify-content:center;width:175px;height:175px;border-radius:50%;background:linear-gradient(135deg,var(--pink-lt),var(--lavender));box-shadow:0 0 0 10px rgba(255,143,171,.15),0 8px 30px rgba(180,100,150,.18);margin:10px auto 14px;position:relative;left:50%;transform:translateX(-50%);}
     .timer-circle-outer::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--white);}
     .timer-display{font-size:2.8rem;font-weight:700;color:var(--pink);letter-spacing:2px;position:relative;z-index:1;font-variant-numeric:tabular-nums;text-align:center;display:block;width:100%;}
     .timer-display.done-color{color:var(--mint);}
@@ -817,9 +817,11 @@ function renderSchedule(){
 }
 
 // ── RUN ──────────────────────────────────────────────
-renderSchedule();
-init();
-applyTodaysSongs();
+document.addEventListener('DOMContentLoaded', function() {
+  init();
+  renderSchedule();
+  applyTodaysSongs();
+});
 </script>
 </body>
 </html>
