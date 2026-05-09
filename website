@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎀 My Vocal Practice Studio 🎀</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink:#FF8FAB; --pink-lt:#FFD6E0; --peach:#FFBCAD;
+      --lavender:#C9B8F5; --mint:#A8E6CF; --yellow:#FFE08A;
+      --white:#FFFAF9; --text:#5C3D5C;
+      --card-bg:rgba(255,255,255,0.85);
+      --shadow:0 8px 32px rgba(180,100,150,0.13);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#FFD6E0 0%,#C9B8F5 50%,#A8E6CF 100%);min-height:100vh;color:var(--text);overflow-x:hidden;}
+    body::before{content:'⭐✨💫⭐✨💫⭐✨💫⭐';position:fixed;top:0;left:0;width:100%;height:100%;font-size:1.3rem;letter-spacing:4rem;line-height:6rem;opacity:.07;pointer-events:none;z-index:0;animation:drift 20s linear infinite;word-break:break-all;}
+    @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-60px)}}
+    .container{max-width:820px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:1;}
+
+    /* ── SETUP BANNER ── */
+    #setupBanner{background:linear-gradient(135deg,#fff7e0,#ffe8f0);border:2px solid var(--yellow);border-radius:20px;padding:18px 22px;margin-bottom:20px;font-size:.9rem;}
+    #setupBanner h3{font-size:1rem;font-weight:800;margin-bottom:8px;color:#8a5a00;}
+    #setupBanner p{color:#7a4f3a;font-weight:600;margin-bottom:10px;line-height:1.5;}
+    .setup-inputs{display:flex;flex-direction:column;gap:8px;}
+    .setup-input{width:100%;border:2px solid var(--yellow);border-radius:10px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:.88rem;color:var(--text);background:#fffef7;outline:none;}
+    .setup-input:focus{border-color:var(--pink);}
+    .sync-dot{width:10px;height:10px;border-radius:50%;background:#ccc;display:inline-block;margin-right:6px;vertical-align:middle;}
+    .sync-dot.connected{background:#4caf50;}
+    .sync-dot.syncing{background:var(--yellow);animation:pulse 1s infinite;}
+    .sync-dot.error{background:#f44336;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    #syncStatus{font-size:.8rem;font-weight:700;color:#9b6ea0;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+
+    /* ── HEADER ── */
+    header{text-align:center;padding:28px 0 18px;}
+    .mascot{font-size:3.4rem;animation:bounce 2s ease-in-out infinite;display:inline-block;}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    header h1{font-family:'Pacifico',cursive;font-size:2.1rem;background:linear-gradient(135deg,#FF8FAB,#C9B8F5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:8px 0 4px;filter:drop-shadow(0 2px 8px rgba(200,100,180,.18));}
+    header p{font-size:.93rem;color:#9b6ea0;font-weight:600;}
+
+    /* ── TABS ── */
+    .tab-bar{display:flex;gap:7px;margin-bottom:20px;flex-wrap:wrap;}
+    .tab-btn{flex:1;min-width:100px;border:none;border-radius:16px;padding:10px 8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.84rem;cursor:pointer;transition:all .2s;background:rgba(255,255,255,.6);color:#9b6ea0;border:2px solid rgba(255,255,255,.7);}
+    .tab-btn.active{background:var(--pink);color:#fff;box-shadow:0 4px 16px rgba(255,143,171,.35);}
+    .tab-btn:hover:not(.active){background:rgba(255,255,255,.85);}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;animation:fadeUp .3s ease;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── CARDS ── */
+    .card{background:var(--card-bg);border-radius:24px;padding:22px 26px;margin-bottom:20px;box-shadow:var(--shadow);backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.7);position:relative;}
+    .card-title{font-size:1.05rem;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--text);flex-wrap:wrap;}
+    .badge{background:var(--pink);color:#fff;border-radius:20px;padding:2px 11px;font-size:.76rem;font-weight:700;}
+    .date-strip{text-align:center;background:linear-gradient(90deg,var(--pink-lt),var(--lavender));border-radius:14px;padding:9px;font-weight:700;font-size:.93rem;color:#7a4f8a;margin-bottom:20px;}
+
+    /* ── TASKS ── */
+    .task-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+    .task-item{background:linear-gradient(90deg,#fff0f5,#f3eeff);border-radius:16px;padding:10px 13px;border:1.5px solid #f0ddf5;transition:transform .15s,box-shadow .15s;}
+    .task-item:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(180,100,150,.1);}
+    .task-item.done{background:linear-gradient(90deg,#e8fef2,#dff9ec);border-color:#b2f0c8;}
+    .task-item.done .task-label{text-decoration:line-through;color:#93b8a0;}
+    .task-top{display:flex;align-items:center;gap:10px;}
+    .task-check{width:25px;height:25px;border-radius:50%;border:2.5px solid var(--pink);background:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;flex-shrink:0;transition:all .2s;}
+    .task-item.done .task-check{background:var(--mint);border-color:var(--mint);}
+    .task-label{font-weight:700;font-size:.93rem;flex:1;}
+    .task-actions{display:flex;gap:3px;}
+    .btn-icon{background:none;border:none;cursor:pointer;font-size:.88rem;opacity:.5;transition:opacity .15s;padding:2px;}
+    .btn-icon:hover{opacity:1;}
+    .task-link-row{display:flex;align-items:center;gap:8px;margin-top:6px;padding-left:35px;}
+    .task-link-input{flex:1;font-size:.81rem;border:1.5px solid var(--pink-lt);border-radius:8px;padding:4px 9px;font-family:'Nunito',sans-serif;outline:none;color:var(--text);background:#fff7fa;}
+    .task-link-anchor{font-size:.81rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:3px 10px;border:1.5px solid var(--pink-lt);}
+    .task-link-anchor:hover{background:var(--pink-lt);}
+    .task-input{flex:1;border:1.5px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:'Nunito',sans-serif;font-size:.93rem;font-weight:700;color:var(--text);outline:none;background:#fff7fa;}
+    .add-task-row{display:flex;gap:8px;margin-top:11px;}
+    .add-task-input{flex:1;border:2px dashed var(--pink);border-radius:12px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);outline:none;background:#fff7fa;}
+
+    /* ── BUTTONS ── */
+    .btn{border:none;border-radius:12px;padding:9px 17px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:.88rem;transition:transform .12s,filter .12s;}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.05);}
+    .btn-pink{background:var(--pink);color:#fff;}
+    .btn-lavender{background:var(--lavender);color:#fff;}
+    .btn-mint{background:var(--mint);color:#3a6b55;}
+    .btn-yellow{background:var(--yellow);color:#7a5a00;}
+    .btn-dark{background:#5C3D5C;color:#fff;}
+    .btn-sm{padding:6px 13px;font-size:.8rem;}
+
+    /* ── TIMER ── */
+    .timer-wrap{text-align:center;}
+    .timer-circle-outer{display:inline-flex;align-items:center;justify-content:center;width:185px;height:185px;border-radius:50%;background:linear-gradient(135deg,var(--pink-lt),var(--lavender));box-shadow:0 0 0 10px rgba(255,143,171,.15),0 8px 30px rgba(180,100,150,.18);margin:10px auto 14px;position:relative;}
+    .timer-circle-outer::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--white);}
+    .timer-display{font-size:2.9rem;font-weight:900;color:var(--pink);letter-spacing:2px;position:relative;z-index:1;font-variant-numeric:tabular-nums;}
+    .timer-display.done-color{color:var(--mint);}
+    .timer-emoji{font-size:1.4rem;display:block;margin-top:2px;}
+    .timer-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-bottom:10px;}
+    .song-selector{margin-bottom:14px;}
+    .song-selector label{font-weight:700;font-size:.86rem;color:#9b6ea0;display:block;margin-bottom:5px;}
+    .song-select{width:100%;border:2px solid var(--pink-lt);border-radius:12px;padding:8px 13px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);background:#fff7fa;outline:none;cursor:pointer;}
+    .ring-svg{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;}
+    .ring-bg{fill:none;stroke:#f3e2f5;stroke-width:10;}
+    .ring-prog{fill:none;stroke:var(--pink);stroke-width:10;stroke-linecap:round;stroke-dasharray:534;stroke-dashoffset:534;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset .5s ease;}
+    .complete-banner{display:none;text-align:center;background:linear-gradient(135deg,#e8fef2,#d6f0ff);border:2px solid var(--mint);border-radius:20px;padding:18px;margin-top:14px;}
+    .complete-banner.show{display:block;animation:popIn .4s ease;}
+    @keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+    .complete-banner h3{font-size:1.15rem;color:#3a8c60;margin-bottom:4px;}
+    .complete-banner p{font-size:.86rem;color:#5a9e78;font-weight:600;}
+    .confetti{font-size:1.7rem;letter-spacing:6px;}
+
+    /* ── WEEK ── */
+    .day-label{font-size:.83rem;font-weight:700;color:#b08fbc;margin-bottom:7px;}
+    .progress-row{display:flex;gap:7px;flex-wrap:wrap;}
+    .day-dot{width:35px;height:35px;border-radius:50%;background:#f3e2f5;border:2px solid #e4c6ef;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#b08fbc;}
+    .day-dot.active{background:var(--pink);border-color:var(--pink);color:#fff;}
+    .day-dot.today{box-shadow:0 0 0 3px var(--pink-lt);}
+
+    /* ── JOURNAL ── */
+    .section-label{font-size:.83rem;font-weight:700;color:#9b6ea0;margin-bottom:7px;}
+    .journal-prompts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px;}
+    .prompt-chip{border:none;border-radius:20px;padding:5px 12px;font-family:'Nunito',sans-serif;font-size:.79rem;font-weight:700;cursor:pointer;background:var(--pink-lt);color:#9b4f7a;transition:all .15s;}
+    .prompt-chip:hover{background:var(--pink);color:#fff;}
+    .journal-textarea{width:100%;border:2px solid var(--pink-lt);border-radius:14px;padding:11px 13px;font-family:'Nunito',sans-serif;font-size:.91rem;color:var(--text);background:#fff7fa;resize:vertical;outline:none;min-height:95px;transition:border-color .2s;}
+    .journal-textarea:focus{border-color:var(--pink);}
+    .journal-controls{display:flex;justify-content:space-between;align-items:center;margin-top:9px;flex-wrap:wrap;gap:7px;}
+    .mood-row{display:flex;gap:6px;}
+    .mood-btn{background:none;border:2px solid transparent;border-radius:10px;font-size:1.35rem;cursor:pointer;padding:3px 6px;transition:all .15s;}
+    .mood-btn.selected{border-color:var(--pink);background:var(--pink-lt);}
+    .journal-entries{margin-top:4px;}
+    .journal-entry{background:linear-gradient(90deg,#fff7fb,#f4f0ff);border-radius:14px;padding:13px 15px;margin-bottom:9px;border:1.5px solid #f0ddf5;position:relative;}
+    .journal-entry-date{font-size:.76rem;color:#b08fbc;font-weight:700;margin-bottom:4px;}
+    .journal-entry-mood{font-size:1.15rem;position:absolute;top:11px;right:13px;}
+    .journal-entry-text{font-size:.88rem;line-height:1.55;color:var(--text);}
+    .entry-delete{background:none;border:none;cursor:pointer;font-size:.83rem;opacity:.4;margin-left:5px;vertical-align:middle;}
+    .entry-delete:hover{opacity:1;}
+    .no-entries{text-align:center;color:#c4a0cc;font-size:.88rem;padding:18px 0;}
+
+    /* ── SONGS ── */
+    .songs-grid{display:flex;flex-direction:column;gap:11px;}
+    .song-card{background:linear-gradient(90deg,#fff0f8,#f3eeff);border-radius:18px;padding:15px 17px;border:1.5px solid #f0ddf5;transition:transform .15s,box-shadow .15s;}
+    .song-card:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(180,100,150,.1);}
+    .song-card-top{display:flex;align-items:flex-start;gap:11px;}
+    .song-icon{font-size:1.7rem;flex-shrink:0;}
+    .song-info{flex:1;}
+    .song-title-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+    .song-name{font-weight:800;font-size:.97rem;color:var(--text);}
+    .song-artist{font-size:.8rem;color:#b08fbc;font-weight:600;}
+    .song-status{font-size:.73rem;font-weight:700;border-radius:10px;padding:2px 9px;}
+    .song-status.learning{background:#fff0c0;color:#8a6500;}
+    .song-status.polishing{background:#d6f0ff;color:#2a6a8a;}
+    .song-status.performance{background:#e0ffe8;color:#2a7a4f;}
+    .confidence-row{margin-top:9px;}
+    .confidence-label{font-size:.79rem;font-weight:700;color:#9b6ea0;margin-bottom:4px;}
+    .star-row{display:flex;gap:3px;}
+    .star-btn{background:none;border:none;cursor:pointer;font-size:1.35rem;line-height:1;padding:2px;transition:transform .1s;}
+    .star-btn:hover{transform:scale(1.2);}
+    .song-notes-field{width:100%;border:1.5px solid var(--pink-lt);border-radius:10px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:.83rem;color:var(--text);background:#fff7fa;resize:none;outline:none;margin-top:9px;min-height:52px;}
+    .song-link-field{width:100%;border:1.5px solid var(--pink-lt);border-radius:10px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:.83rem;color:var(--text);background:#fff7fa;outline:none;margin-top:6px;}
+    .song-actions-row{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;align-items:center;}
+    .add-song-form{background:linear-gradient(135deg,#fff7fb,#f0edff);border-radius:18px;padding:16px 18px;border:2px dashed var(--pink-lt);margin-bottom:14px;}
+    .form-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:9px;}
+    .form-input{flex:1;min-width:120px;border:2px solid var(--pink-lt);border-radius:12px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);background:#fff7fa;outline:none;transition:border-color .2s;}
+    .form-input:focus{border-color:var(--pink);}
+    .form-select{flex:1;min-width:115px;border:2px solid var(--pink-lt);border-radius:12px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:.9rem;color:var(--text);background:#fff7fa;outline:none;cursor:pointer;}
+
+    /* ── TEACHER DASHBOARD ── */
+    .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;}
+    .stat-card{background:linear-gradient(135deg,#fff0f8,#f3eeff);border-radius:16px;padding:16px;text-align:center;border:1.5px solid #f0ddf5;}
+    .stat-number{font-size:2.2rem;font-weight:900;color:var(--pink);}
+    .stat-label{font-size:.78rem;font-weight:700;color:#b08fbc;margin-top:2px;}
+    .dash-entry{background:linear-gradient(90deg,#fff7fb,#f4f0ff);border-radius:14px;padding:13px 15px;margin-bottom:9px;border:1.5px solid #f0ddf5;position:relative;}
+    .dash-entry-date{font-size:.75rem;color:#b08fbc;font-weight:700;margin-bottom:4px;}
+    .dash-entry-text{font-size:.88rem;line-height:1.5;color:var(--text);}
+    .dash-entry-mood{font-size:1.1rem;position:absolute;top:10px;right:12px;}
+    .dash-section-title{font-size:.95rem;font-weight:800;color:var(--text);margin:16px 0 10px;display:flex;align-items:center;gap:7px;}
+    .song-dash-row{display:flex;align-items:center;justify-content:space-between;background:#fff0f8;border-radius:12px;padding:10px 14px;margin-bottom:7px;border:1.5px solid #f0ddf5;flex-wrap:wrap;gap:6px;}
+    .song-dash-name{font-weight:800;font-size:.9rem;}
+    .song-dash-meta{font-size:.78rem;color:#b08fbc;font-weight:600;}
+    .checkin-row{display:flex;align-items:center;justify-content:space-between;background:#f0fff4;border-radius:12px;padding:8px 14px;margin-bottom:6px;border:1.5px solid #b2f0c8;flex-wrap:wrap;gap:4px;}
+    .checkin-date{font-size:.82rem;font-weight:700;color:#3a8c60;}
+    .checkin-tasks{font-size:.78rem;color:#5a9e78;font-weight:600;}
+    .password-gate{text-align:center;padding:30px 10px;}
+    .password-gate p{font-size:.9rem;color:#9b6ea0;font-weight:600;margin-bottom:12px;}
+    .password-input{border:2px solid var(--pink-lt);border-radius:12px;padding:10px 15px;font-family:'Nunito',sans-serif;font-size:.95rem;color:var(--text);background:#fff7fa;outline:none;width:100%;max-width:280px;text-align:center;letter-spacing:3px;}
+    .password-input:focus{border-color:var(--pink);}
+    .tab-badge{background:var(--lavender);color:#fff;border-radius:10px;padding:1px 7px;font-size:.7rem;margin-left:3px;vertical-align:middle;}
+
+    /* ── MISC ── */
+    .note-area{width:100%;border:2px solid var(--pink-lt);border-radius:14px;padding:11px 13px;font-family:'Nunito',sans-serif;font-size:.91rem;color:var(--text);background:#fff7fa;resize:vertical;outline:none;min-height:76px;}
+    .save-note-row{display:flex;justify-content:flex-end;margin-top:7px;}
+    .loading-msg{text-align:center;color:#c4a0cc;font-size:.88rem;padding:16px 0;font-weight:600;}
+    footer{text-align:center;font-size:.8rem;color:#c097c8;margin-top:28px;}
+    @media(max-width:480px){header h1{font-size:1.7rem;}.timer-display{font-size:2.4rem;}.timer-circle-outer{width:155px;height:155px;}.tab-btn{font-size:.76rem;padding:8px 5px;}}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ── SETUP BANNER ── -->
+  <div id="setupBanner">
+    <h3>⚙️ Connect to Supabase to enable progress tracking</h3>
+    <p>Paste your Supabase <strong>Project URL</strong> and <strong>anon/public key</strong> below. Find them at:<br>
+    <em>supabase.com → your project → Settings → API</em></p>
+    <div class="setup-inputs">
+      <input class="setup-input" id="sbUrl"  placeholder="Project URL  (https://xxxx.supabase.co)" />
+      <input class="setup-input" id="sbKey"  placeholder="anon/public key  (eyJ…)" />
+      <button class="btn btn-pink" style="align-self:flex-start;margin-top:4px;" onclick="saveSupabaseConfig()">💾 Save &amp; Connect</button>
+    </div>
+  </div>
+
+  <div id="syncStatus"><span class="sync-dot" id="syncDot"></span><span id="syncText">Not connected</span></div>
+
+  <header>
+    <div class="mascot">🎤</div>
+    <h1>My Vocal Practice Studio</h1>
+    <p id="greeting">Loading your practice session…</p>
+  </header>
+
+  <div class="date-strip" id="dateStrip">📅 Today is …</div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tbtn-practice" onclick="switchTab('practice',this)">🌸 Practice</button>
+    <button class="tab-btn"        id="tbtn-journal"  onclick="switchTab('journal',this)">📔 Journal</button>
+    <button class="tab-btn"        id="tbtn-songs"    onclick="switchTab('songs',this)">🎶 Songs</button>
+    <button class="tab-btn"        id="tbtn-teacher"  onclick="switchTab('teacher',this)">👩‍🏫 Teacher</button>
+  </div>
+
+  <!-- ══════════ TAB: PRACTICE ══════════ -->
+  <div id="tab-practice" class="tab-panel active">
+
+    <div class="card">
+      <div class="card-title">🌸 Daily Practice Tasks <span class="badge" id="taskBadge">0/0</span></div>
+      <ul class="task-list" id="taskList"></ul>
+      <div class="add-task-row">
+        <input class="add-task-input" id="newTaskInput" placeholder="✏️ Add a new exercise or song…"/>
+        <button class="btn btn-pink" onclick="addTask()">+ Add</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⏱️ Practice Timer <span class="badge" id="timerBadge">20 min</span></div>
+      <div class="song-selector">
+        <label>🎵 Currently practicing:</label>
+        <select class="song-select" id="songSelect"><option value="Free Practice">🎤 Free Practice</option></select>
+      </div>
+      <div class="timer-wrap">
+        <div class="timer-circle-outer">
+          <svg class="ring-svg" viewBox="0 0 180 180">
+            <circle class="ring-bg" cx="90" cy="90" r="85"/>
+            <circle class="ring-prog" id="ringProg" cx="90" cy="90" r="85"/>
+          </svg>
+          <div>
+            <span class="timer-display" id="timerDisplay">20:00</span>
+            <span class="timer-emoji"   id="timerEmoji">🌸</span>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="btn btn-pink"     id="startBtn" onclick="startTimer()">▶ Start</button>
+          <button class="btn btn-lavender" id="pauseBtn" onclick="pauseTimer()" style="display:none">⏸ Pause</button>
+          <button class="btn btn-mint"                   onclick="resetTimer()">↺ Reset</button>
+          <button class="btn btn-yellow"                 onclick="openCustom()">⚙️ Set Time</button>
+        </div>
+        <div id="customPanel" style="display:none;margin-top:10px;text-align:center;">
+          <label style="font-size:.88rem;font-weight:700;color:#9b6ea0;">Minutes: </label>
+          <input type="number" id="customMin" min="1" max="120" value="20"
+            style="width:65px;border:2px solid var(--pink);border-radius:10px;padding:6px 9px;font-family:'Nunito',sans-serif;font-size:.93rem;outline:none;">
+          <button class="btn btn-pink btn-sm" onclick="applyCustom()" style="margin-left:6px;">Set ✓</button>
+        </div>
+      </div>
+      <div class="complete-banner" id="completeBanner">
+        <div class="confetti">🎉🌟🎀</div>
+        <h3>Amazing Work! 🎤✨</h3>
+        <p id="completionMsg">You practiced for 20 minutes! Keep shining, superstar! 💖</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📅 This Week's Practice</div>
+      <div class="day-label">Days practiced this week:</div>
+      <div class="progress-row" id="weekDots"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📝 Quick Notes</div>
+      <textarea class="note-area" id="noteArea" placeholder="Tips from your teacher, lyrics to study, anything to remember! 🌷"></textarea>
+      <div class="save-note-row"><button class="btn btn-lavender" onclick="saveNote()">💾 Save Note</button></div>
+    </div>
+  </div>
+
+  <!-- ══════════ TAB: JOURNAL ══════════ -->
+  <div id="tab-journal" class="tab-panel">
+    <div class="card">
+      <div class="card-title">📔 Cool Down &amp; Reflection Journal</div>
+      <p style="font-size:.84rem;color:#b08fbc;font-weight:600;margin-bottom:15px;">After each session, reflect on your practice. Entries sync to your teacher automatically! 🌷</p>
+
+      <div style="margin-bottom:13px;">
+        <div class="section-label">How did practice feel today?</div>
+        <div class="mood-row" id="moodRow">
+          <button class="mood-btn" data-mood="😄" onclick="pickMood(this)">😄</button>
+          <button class="mood-btn" data-mood="🙂" onclick="pickMood(this)">🙂</button>
+          <button class="mood-btn" data-mood="😐" onclick="pickMood(this)">😐</button>
+          <button class="mood-btn" data-mood="😓" onclick="pickMood(this)">😓</button>
+          <button class="mood-btn" data-mood="💪" onclick="pickMood(this)">💪</button>
+          <button class="mood-btn" data-mood="🌟" onclick="pickMood(this)">🌟</button>
+        </div>
+      </div>
+
+      <div class="section-label">Need a prompt? Tap one!</div>
+      <div class="journal-prompts">
+        <button class="prompt-chip" onclick="usePrompt('What felt easy today? ')">What felt easy today?</button>
+        <button class="prompt-chip" onclick="usePrompt('What challenged me? ')">What challenged me?</button>
+        <button class="prompt-chip" onclick="usePrompt('What do I want to improve? ')">What do I want to improve?</button>
+        <button class="prompt-chip" onclick="usePrompt('A moment I am proud of... ')">A moment I&#39;m proud of…</button>
+        <button class="prompt-chip" onclick="usePrompt('My voice felt... ')">My voice felt…</button>
+        <button class="prompt-chip" onclick="usePrompt('I noticed that... ')">I noticed that…</button>
+      </div>
+
+      <textarea class="journal-textarea" id="journalText" placeholder="Write your reflection here… 🌸"></textarea>
+      <div class="journal-controls">
+        <div style="font-size:.78rem;color:#c4a0cc;font-weight:600;">Mood: <span id="moodDisplay">none selected</span></div>
+        <button class="btn btn-pink" id="saveEntryBtn" onclick="saveJournalEntry()">💾 Save &amp; Sync Entry</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🌸 Past Reflections <span class="badge" id="entryCount">0</span></div>
+      <div class="journal-entries" id="journalEntries"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ TAB: SONGS ══════════ -->
+  <div id="tab-songs" class="tab-panel">
+    <div class="card">
+      <div class="card-title">🎶 Song Tracker</div>
+      <p style="font-size:.84rem;color:#b08fbc;font-weight:600;margin-bottom:14px;">Track every song, rate your confidence, add notes — all synced to your teacher! ⭐</p>
+
+      <div class="add-song-form">
+        <div style="font-weight:800;font-size:.92rem;margin-bottom:11px;color:var(--text);">➕ Add a New Song</div>
+        <div class="form-row">
+          <input class="form-input" id="newSongTitle"  placeholder="🎵 Song Title"/>
+          <input class="form-input" id="newSongArtist" placeholder="🎤 Artist (optional)"/>
+        </div>
+        <div class="form-row">
+          <select class="form-select" id="newSongStatus">
+            <option value="learning">🌱 Learning</option>
+            <option value="polishing">✨ Polishing</option>
+            <option value="performance">🎭 Performance Ready</option>
+          </select>
+          <input class="form-input" id="newSongLink" placeholder="🔗 Resource URL (optional)"/>
+        </div>
+        <button class="btn btn-pink" onclick="addSong()">🎶 Add Song</button>
+      </div>
+
+      <div class="songs-grid" id="songsGrid">
+        <div class="no-entries" id="noSongs">No songs yet — add your first one above! 🎵</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ TAB: TEACHER ══════════ -->
+  <div id="tab-teacher" class="tab-panel">
+    <div class="card" id="teacherGate">
+      <div class="card-title">👩‍🏫 Teacher Dashboard</div>
+      <div class="password-gate" id="pwGate">
+        <p>Enter your teacher password to view your student's progress.</p>
+        <input class="password-input" id="teacherPwInput" type="password" placeholder="••••••••"
+          onkeydown="if(event.key==='Enter')checkTeacherPw()"/>
+        <br><br>
+        <button class="btn btn-dark" onclick="checkTeacherPw()">🔓 Enter Dashboard</button>
+        <br><br>
+        <p style="font-size:.76rem;color:#cca0d4;">Default password: <strong>teacher123</strong> — change it in the code</p>
+      </div>
+      <div id="dashContent" style="display:none;">
+        <div id="dashLoading" class="loading-msg">Loading student data… 🌸</div>
+        <div id="dashInner" style="display:none;">
+
+          <div class="dash-grid" id="statsGrid"></div>
+
+          <div class="dash-section-title">⭐ Song Confidence Ratings</div>
+          <div id="dashSongs"><div class="no-entries">No songs tracked yet.</div></div>
+
+          <div class="dash-section-title">📔 Recent Journal Entries</div>
+          <div id="dashJournal"><div class="no-entries">No journal entries yet.</div></div>
+
+          <div class="dash-section-title">✅ Recent Practice Check-ins</div>
+          <div id="dashCheckins"><div class="no-entries">No check-ins yet.</div></div>
+
+          <div style="margin-top:16px;text-align:center;">
+            <button class="btn btn-lavender btn-sm" onclick="loadDashboard()">🔄 Refresh</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>🌸 Made with love for your vocal journey 🌸</footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+// ╔══════════════════════════════════════════════════╗
+//  SUPABASE CONFIG  — filled in by user via banner
+// ╚══════════════════════════════════════════════════╝
+const TEACHER_PASSWORD = 'teacher123'; // ← change this to whatever you like
+
+let SB_URL = localStorage.getItem('sb_url') || '';
+let SB_KEY = localStorage.getItem('sb_key') || '';
+
+function saveSupabaseConfig() {
+  SB_URL = document.getElementById('sbUrl').value.trim().replace(/\/$/, '');
+  SB_KEY = document.getElementById('sbKey').value.trim();
+  if (!SB_URL || !SB_KEY) { alert('Please fill in both fields!'); return; }
+  localStorage.setItem('sb_url', SB_URL);
+  localStorage.setItem('sb_key', SB_KEY);
+  document.getElementById('setupBanner').style.display = 'none';
+  setSyncStatus('connected', '✅ Supabase connected!');
+  setTimeout(() => setSyncStatus('connected', 'Connected to Supabase'), 2500);
+}
+
+function setSyncStatus(state, msg) {
+  const dot  = document.getElementById('syncDot');
+  const text = document.getElementById('syncText');
+  dot.className  = 'sync-dot ' + state;
+  text.textContent = msg;
+}
+
+async function sbFetch(path, method, body) {
+  if (!SB_URL || !SB_KEY) return null;
+  setSyncStatus('syncing', 'Syncing…');
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/' + path, {
+      method: method || 'GET',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Prefer':        method === 'POST' ? 'return=representation' : ''
+      },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const data = await res.json();
+    setSyncStatus('connected', 'Connected · synced just now');
+    return data;
+  } catch(e) {
+    setSyncStatus('error', 'Sync error — check your credentials');
+    return null;
+  }
+}
+
+// ── LOCAL STATE ─────────────────────────────────────
+const DEFAULT_TASKS = [
+  { label:'🎵 Warm-Up Exercises',            done:false, link:'', isJournal:false },
+  { label:'🎶 Breathing Technique Practice', done:false, link:'', isJournal:false },
+  { label:'🌟 Main Song',                    done:false, link:'', isJournal:false },
+  { label:'🎤 Second Song Run-Through',      done:false, link:'', isJournal:false },
+  { label:'💫 Cool Down and Reflection',     done:false, link:'', isJournal:true  },
+];
+
+let tasks          = JSON.parse(localStorage.getItem('vp_tasks4')) || DEFAULT_TASKS.map(t=>({...t}));
+let notes          = localStorage.getItem('vp_notes')    || '';
+let weekData       = JSON.parse(localStorage.getItem('vp_week'))   || {};
+let practiceMin    = parseInt(localStorage.getItem('vp_minutes'))  || 20;
+let journalEntries = JSON.parse(localStorage.getItem('vp_journal'))|| [];
+let songs          = JSON.parse(localStorage.getItem('vp_songs'))  || [];
+let selectedMood   = '';
+
+let timerTotal = practiceMin * 60, timerLeft = timerTotal;
+let timerInterval = null, timerRunning = false, timerDone = false;
+
+// ── INIT ────────────────────────────────────────────
+function init() {
+  // hide setup banner if already configured
+  if (SB_URL && SB_KEY) {
+    document.getElementById('setupBanner').style.display = 'none';
+    setSyncStatus('connected', 'Connected to Supabase');
+    document.getElementById('sbUrl').value = SB_URL;
+    document.getElementById('sbKey').value = SB_KEY;
+  }
+
+  const now = new Date();
+  const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dateStrip').textContent =
+    '📅 ' + DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+  const h = now.getHours();
+  document.getElementById('greeting').textContent =
+    h < 12 ? '☀️ Good morning, Superstar!' : h < 17 ? '🌤️ Good afternoon, Singer!' : '🌙 Good evening, Vocal Star!';
+
+  renderTasks();
+  renderWeek();
+  updateTimerDisplay();
+  document.getElementById('noteArea').value = notes;
+  renderJournal();
+  renderSongs();
+  document.getElementById('newTaskInput').addEventListener('keydown', e => { if(e.key==='Enter') addTask(); });
+}
+
+// ── TABS ────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TASKS ───────────────────────────────────────────
+function saveTasks() {
+  localStorage.setItem('vp_tasks4', JSON.stringify(tasks));
+  updateSongSelect();
+}
+
+function renderTasks() {
+  const ul = document.getElementById('taskList');
+  ul.innerHTML = '';
+  tasks.forEach(function(t, i) {
+    const li = document.createElement('li');
+    li.className = 'task-item' + (t.done ? ' done' : '');
+    let linkInner = t.link
+      ? '<a class="task-link-anchor" href="' + t.link + '" target="_blank" rel="noopener">🔗 Open Resource</a>'
+        + '<button class="btn-icon" onclick="clearLink(' + i + ')" title="Remove">✕</button>'
+      : '<input class="task-link-input" placeholder="Paste resource URL and press Enter…"'
+        + ' onblur="setLink(' + i + ',this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />';
+    const journalBtn = t.isJournal
+      ? '<button class="btn-icon" title="Open Journal" onclick="goToJournal()">📔</button>' : '';
+    li.innerHTML =
+      '<div class="task-top">'
+      + '<div class="task-check" onclick="toggleTask(' + i + ')">' + (t.done ? '✓' : '') + '</div>'
+      + '<span class="task-label" id="tl-' + i + '">' + t.label + '</span>'
+      + '<div class="task-actions">' + journalBtn
+      + '<button class="btn-icon" onclick="editTask(' + i + ')">✏️</button>'
+      + '<button class="btn-icon" onclick="toggleLinkRow(' + i + ')">🔗</button>'
+      + '<button class="btn-icon" onclick="deleteTask(' + i + ')">🗑️</button>'
+      + '</div></div>'
+      + '<div class="task-link-row" id="lr-' + i + '" style="display:' + (t.link ? 'flex' : 'none') + '">'
+      + linkInner + '</div>';
+    ul.appendChild(li);
+  });
+  const done = tasks.filter(t => t.done).length;
+  document.getElementById('taskBadge').textContent = done + '/' + tasks.length;
+  updateSongSelect();
+}
+
+function toggleLinkRow(i) {
+  const r = document.getElementById('lr-' + i);
+  r.style.display = r.style.display === 'none' ? 'flex' : 'none';
+}
+function setLink(i, val) {
+  val = val.trim();
+  if (val && !val.startsWith('http')) val = 'https://' + val;
+  tasks[i].link = val; saveTasks(); renderTasks();
+}
+function clearLink(i) { tasks[i].link = ''; saveTasks(); renderTasks(); }
+
+function toggleTask(i) {
+  tasks[i].done = !tasks[i].done;
+  saveTasks(); renderTasks();
+  if (tasks[i].isJournal && tasks[i].done)
+    setTimeout(function() { if(confirm('💫 Great job! Open your Reflection Journal now?')) goToJournal(); }, 250);
+  if (tasks.every(t => t.done) && tasks.length)
+    setTimeout(function() { alert('🌟 All tasks done! Amazing session today! 🎉'); }, 350);
+}
+
+function addTask() {
+  const inp = document.getElementById('newTaskInput');
+  const val = inp.value.trim(); if (!val) return;
+  tasks.push({ label:val, done:false, link:'', isJournal:false });
+  inp.value = ''; saveTasks(); renderTasks();
+}
+function deleteTask(i) { tasks.splice(i,1); saveTasks(); renderTasks(); }
+function editTask(i) {
+  const lbl = document.getElementById('tl-' + i), old = tasks[i].label;
+  lbl.outerHTML = '<input class="task-input" id="ti-' + i + '" value="' + old.replace(/"/g,'&quot;') + '" />';
+  const inp = document.getElementById('ti-' + i); inp.focus();
+  inp.addEventListener('blur', function() { tasks[i].label = inp.value || old; saveTasks(); renderTasks(); });
+  inp.addEventListener('keydown', function(e) { if(e.key==='Enter') inp.blur(); });
+}
+function goToJournal() {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-journal').classList.add('active');
+  document.getElementById('tbtn-journal').classList.add('active');
+  document.getElementById('journalText').focus();
+}
+
+// ── SONG SELECT (timer) ─────────────────────────────
+function updateSongSelect() {
+  const sel = document.getElementById('songSelect'), cur = sel.value;
+  sel.innerHTML = '<option value="Free Practice">🎤 Free Practice</option>';
+  tasks.forEach(function(t) {
+    const o = document.createElement('option'); o.value = t.label; o.textContent = t.label; sel.appendChild(o);
+  });
+  songs.forEach(function(s) {
+    if (tasks.some(t => t.label.toLowerCase().includes(s.title.toLowerCase()))) return;
+    const o = document.createElement('option'); o.value = s.title; o.textContent = '🎵 ' + s.title; sel.appendChild(o);
+  });
+  if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
+}
+
+// ── TIMER ───────────────────────────────────────────
+function updateTimerDisplay() {
+  const m = Math.floor(timerLeft/60).toString().padStart(2,'0');
+  const s = (timerLeft%60).toString().padStart(2,'0');
+  document.getElementById('timerDisplay').textContent = m + ':' + s;
+  const pct = 1 - timerLeft/timerTotal;
+  document.getElementById('ringProg').style.strokeDashoffset = 534 - pct*534;
+  const emojis = ['🌸','🎵','✨','🌟','🎶','💖'];
+  document.getElementById('timerEmoji').textContent = emojis[Math.min(Math.floor(pct*emojis.length), emojis.length-1)];
+}
+function startTimer() {
+  if (timerDone || timerRunning) return;
+  timerRunning = true;
+  document.getElementById('startBtn').style.display = 'none';
+  document.getElementById('pauseBtn').style.display = '';
+  timerInterval = setInterval(function() {
+    timerLeft--; updateTimerDisplay();
+    if (timerLeft <= 0) { clearInterval(timerInterval); timerRunning=false; timerDone=true; onTimerComplete(); }
+  }, 1000);
+}
+function pauseTimer() {
+  if (!timerRunning) return;
+  clearInterval(timerInterval); timerRunning = false;
+  document.getElementById('startBtn').style.display = '';
+  document.getElementById('startBtn').textContent = '▶ Resume';
+  document.getElementById('pauseBtn').style.display = 'none';
+}
+function resetTimer() {
+  clearInterval(timerInterval); timerRunning=false; timerDone=false; timerLeft=timerTotal;
+  updateTimerDisplay();
+  document.getElementById('startBtn').style.display=''; document.getElementById('startBtn').textContent='▶ Start';
+  document.getElementById('pauseBtn').style.display='none';
+  document.getElementById('completeBanner').classList.remove('show');
+  document.getElementById('timerDisplay').classList.remove('done-color');
+  document.getElementById('ringProg').style.stroke='var(--pink)';
+}
+function onTimerComplete() {
+  document.getElementById('startBtn').style.display=''; document.getElementById('startBtn').textContent='▶ Start';
+  document.getElementById('pauseBtn').style.display='none';
+  document.getElementById('timerDisplay').classList.add('done-color');
+  document.getElementById('ringProg').style.stroke='#A8E6CF';
+  const song = document.getElementById('songSelect').value;
+  const mins = Math.round(timerTotal/60);
+  document.getElementById('completionMsg').textContent =
+    'You practiced "' + song + '" for ' + mins + ' minute' + (mins!==1?'s':'') + '! Keep shining, superstar! 💖';
+  document.getElementById('completeBanner').classList.add('show');
+  markTodayPracticed();
+  syncCheckin(song, mins);
+}
+function openCustom() {
+  const p = document.getElementById('customPanel');
+  p.style.display = p.style.display==='none' ? 'block' : 'none';
+}
+function applyCustom() {
+  const val = parseInt(document.getElementById('customMin').value)||20;
+  practiceMin = Math.max(1,Math.min(120,val));
+  localStorage.setItem('vp_minutes', practiceMin);
+  timerTotal = practiceMin*60;
+  document.getElementById('timerBadge').textContent = practiceMin + ' min';
+  resetTimer(); document.getElementById('customPanel').style.display='none';
+}
+
+// ── WEEK ────────────────────────────────────────────
+function markTodayPracticed() {
+  weekData[new Date().toISOString().slice(0,10)] = true;
+  localStorage.setItem('vp_week', JSON.stringify(weekData)); renderWeek();
+}
+function renderWeek() {
+  const wrap = document.getElementById('weekDots'); wrap.innerHTML='';
+  const today=new Date(), monday=new Date(today);
+  monday.setDate(today.getDate()-((today.getDay()+6)%7));
+  ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function(lbl,d) {
+    const dd=new Date(monday); dd.setDate(monday.getDate()+d);
+    const key=dd.toISOString().slice(0,10), isToday=dd.toDateString()===today.toDateString(), done=weekData[key];
+    const dot=document.createElement('div');
+    dot.className='day-dot'+(done?' active':'')+(isToday?' today':'');
+    dot.title=lbl+(done?' ✓':''); dot.innerHTML=done?'⭐':lbl.slice(0,1);
+    wrap.appendChild(dot);
+  });
+}
+
+// ── NOTES ───────────────────────────────────────────
+function saveNote() {
+  notes=document.getElementById('noteArea').value;
+  localStorage.setItem('vp_notes',notes);
+  const btn=document.querySelector('.save-note-row button');
+  btn.textContent='✅ Saved!'; setTimeout(function(){btn.textContent='💾 Save Note';},1800);
+}
+
+// ── JOURNAL ─────────────────────────────────────────
+function pickMood(btn) {
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); selectedMood=btn.dataset.mood;
+  document.getElementById('moodDisplay').textContent=selectedMood;
+}
+function usePrompt(text) {
+  const ta=document.getElementById('journalText'), cur=ta.value.trim();
+  ta.value=cur?cur+'\n\n'+text:text; ta.focus();
+}
+async function saveJournalEntry() {
+  const text=document.getElementById('journalText').value.trim();
+  if (!text){alert('✏️ Please write something first!');return;}
+  const entry={
+    id:Date.now(),
+    date:new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    text:text, mood:selectedMood
+  };
+  journalEntries.unshift(entry);
+  localStorage.setItem('vp_journal',JSON.stringify(journalEntries));
+  document.getElementById('journalText').value='';
+  selectedMood='';
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('moodDisplay').textContent='none selected';
+  renderJournal();
+  const btn=document.getElementById('saveEntryBtn');
+  btn.textContent='⏳ Syncing…';
+  // Sync to Supabase
+  await sbFetch('journal_entries?on_conflict=id', 'POST', {
+    entry_date: new Date().toISOString(),
+    text: text,
+    mood: selectedMood || null,
+    display_date: entry.date
+  });
+  btn.textContent='✅ Saved & Synced!';
+  setTimeout(function(){btn.textContent='💾 Save & Sync Entry';},2000);
+}
+function deleteJournalEntry(id) {
+  journalEntries=journalEntries.filter(e=>e.id!==id);
+  localStorage.setItem('vp_journal',JSON.stringify(journalEntries)); renderJournal();
+}
+function renderJournal() {
+  const wrap=document.getElementById('journalEntries');
+  document.getElementById('entryCount').textContent=journalEntries.length;
+  if (!journalEntries.length){wrap.innerHTML='<div class="no-entries">No entries yet — write your first reflection! 🌸</div>';return;}
+  wrap.innerHTML=journalEntries.map(function(e){
+    return '<div class="journal-entry">'
+      +'<div class="journal-entry-date">📅 '+e.date
+      +'<button class="entry-delete" onclick="deleteJournalEntry('+e.id+')">🗑️</button></div>'
+      +(e.mood?'<div class="journal-entry-mood">'+e.mood+'</div>':'')
+      +'<div class="journal-entry-text">'+e.text.replace(/\n/g,'<br>')+'</div>'
+      +'</div>';
+  }).join('');
+}
+
+// ── SONGS ───────────────────────────────────────────
+function saveSongs(){localStorage.setItem('vp_songs',JSON.stringify(songs));updateSongSelect();}
+async function addSong() {
+  const title=document.getElementById('newSongTitle').value.trim();
+  const artist=document.getElementById('newSongArtist').value.trim();
+  const status=document.getElementById('newSongStatus').value;
+  let link=document.getElementById('newSongLink').value.trim();
+  if (!title){alert('🎵 Please enter a song title!');return;}
+  if (link && !link.startsWith('http')) link='https://'+link;
+  const song={id:Date.now(),title:title,artist:artist,status:status,link:link,confidence:0,notes:''};
+  songs.push(song);
+  ['newSongTitle','newSongArtist','newSongLink'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('newSongStatus').value='learning';
+  saveSongs(); renderSongs();
+  await sbFetch('songs?on_conflict=song_id','POST',{
+    song_id: song.id, title:title, artist:artist||null, status:status,
+    link:link||null, confidence:0, notes:null
+  });
+}
+function deleteSong(id){songs=songs.filter(s=>s.id!==id);saveSongs();renderSongs();}
+async function setSongConfidence(id,stars){
+  const s=songs.find(s=>s.id===id); if(!s)return;
+  s.confidence=stars; saveSongs(); renderSongs();
+  await sbFetch('songs?song_id=eq.'+id,'PATCH',{confidence:stars});
+}
+async function setSongStatus(id,val){
+  const s=songs.find(s=>s.id===id); if(!s)return;
+  s.status=val; saveSongs(); renderSongs();
+  await sbFetch('songs?song_id=eq.'+id,'PATCH',{status:val});
+}
+async function setSongNotes(id,val){
+  const s=songs.find(s=>s.id===id); if(!s)return;
+  s.notes=val; saveSongs();
+  await sbFetch('songs?song_id=eq.'+id,'PATCH',{notes:val});
+}
+async function setSongLink(id,val){
+  val=val.trim(); if(val&&!val.startsWith('http'))val='https://'+val;
+  const s=songs.find(s=>s.id===id); if(!s)return;
+  s.link=val; saveSongs(); renderSongs();
+  await sbFetch('songs?song_id=eq.'+id,'PATCH',{link:val||null});
+}
+function renderSongs(){
+  const grid=document.getElementById('songsGrid'),noMsg=document.getElementById('noSongs');
+  if(!songs.length){grid.innerHTML='';grid.appendChild(noMsg);noMsg.style.display='block';return;}
+  noMsg.style.display='none';
+  const icons=['🎵','🎶','🎼','🎤','🌟','💫','🎀','🌸'];
+  const statusMap={learning:'🌱 Learning',polishing:'✨ Polishing',performance:'🎭 Ready'};
+  grid.innerHTML=songs.map(function(s){
+    const icon=icons[s.id%icons.length];
+    const stars=[1,2,3,4,5].map(function(n){
+      return '<button class="star-btn" onclick="setSongConfidence('+s.id+','+n+')">'+(n<=s.confidence?'⭐':'☆')+'</button>';
+    }).join('');
+    const statusOpts=['learning','polishing','performance'].map(function(v){
+      return '<option value="'+v+'"'+(s.status===v?' selected':'')+'>'+{learning:'🌱 Learning',polishing:'✨ Polishing',performance:'🎭 Performance Ready'}[v]+'</option>';
+    }).join('');
+    const linkSection=s.link
+      ?'<div style="margin-top:7px;display:flex;align-items:center;gap:7px;">'
+        +'<a class="task-link-anchor" href="'+s.link+'" target="_blank" rel="noopener">🔗 Open Resource</a>'
+        +'<button class="btn-icon" onclick="setSongLink('+s.id+',\'\')" title="Remove">✕</button></div>'
+      :'<input class="song-link-field" placeholder="🔗 Paste resource URL…"'
+        +' onblur="setSongLink('+s.id+',this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />';
+    return '<div class="song-card">'
+      +'<div class="song-card-top"><div class="song-icon">'+icon+'</div>'
+      +'<div class="song-info"><div class="song-title-row">'
+      +'<span class="song-name">'+s.title+'</span>'
+      +(s.artist?'<span class="song-artist">— '+s.artist+'</span>':'')
+      +'<span class="song-status '+s.status+'">'+statusMap[s.status]+'</span>'
+      +'</div></div></div>'
+      +'<div class="confidence-row"><div class="confidence-label">My Confidence Level:</div>'
+      +'<div class="star-row">'+stars+'</div></div>'
+      +'<select class="form-select" style="margin-top:9px;width:100%;" onchange="setSongStatus('+s.id+',this.value)">'+statusOpts+'</select>'
+      +linkSection
+      +'<textarea class="song-notes-field" placeholder="Notes: tricky parts, teacher tips, lyrics to memorize…"'
+      +' onblur="setSongNotes('+s.id+',this.value)">'+(s.notes||'')+'</textarea>'
+      +'<div class="song-actions-row"><button class="btn btn-pink btn-sm" onclick="deleteSong('+s.id+')">🗑️ Remove Song</button></div>'
+      +'</div>';
+  }).join('');
+}
+
+// ── SYNC CHECK-IN ───────────────────────────────────
+async function syncCheckin(song, mins) {
+  const doneCount = tasks.filter(t=>t.done).length;
+  await sbFetch('checkins', 'POST', {
+    checkin_date: new Date().toISOString(),
+    song_practiced: song,
+    minutes_practiced: mins,
+    tasks_completed: doneCount,
+    tasks_total: tasks.length
+  });
+}
+
+// ── TEACHER DASHBOARD ───────────────────────────────
+let dashUnlocked = false;
+function checkTeacherPw() {
+  const val = document.getElementById('teacherPwInput').value;
+  if (val === TEACHER_PASSWORD) {
+    dashUnlocked = true;
+    document.getElementById('pwGate').style.display = 'none';
+    document.getElementById('dashContent').style.display = 'block';
+    loadDashboard();
+  } else {
+    document.getElementById('teacherPwInput').style.borderColor = '#f44336';
+    setTimeout(function(){ document.getElementById('teacherPwInput').style.borderColor=''; }, 1500);
+    alert('❌ Incorrect password. Try again!');
+  }
+}
+
+async function loadDashboard() {
+  if (!dashUnlocked) return;
+  if (!SB_URL || !SB_KEY) {
+    document.getElementById('dashLoading').textContent = '⚠️ Supabase not connected yet. Add your credentials above!';
+    return;
+  }
+  document.getElementById('dashLoading').style.display = 'block';
+  document.getElementById('dashInner').style.display = 'none';
+
+  const [journals, songData, checkins] = await Promise.all([
+    sbFetch('journal_entries?order=entry_date.desc&limit=20'),
+    sbFetch('songs?order=title.asc'),
+    sbFetch('checkins?order=checkin_date.desc&limit=30')
+  ]);
+
+  document.getElementById('dashLoading').style.display = 'none';
+  document.getElementById('dashInner').style.display = 'block';
+
+  // Stats
+  const totalSessions  = (checkins || []).length;
+  const totalMins      = (checkins || []).reduce(function(a,c){return a+(c.minutes_practiced||0);},0);
+  const avgConfidence  = songData && songData.length
+    ? (songData.reduce(function(a,s){return a+(s.confidence||0);},0)/songData.length).toFixed(1) : '—';
+  const totalEntries   = (journals || []).length;
+
+  document.getElementById('statsGrid').innerHTML =
+    stat('🎤', totalSessions, 'Practice Sessions')
+    + stat('⏱️', totalMins, 'Minutes Practiced')
+    + stat('⭐', avgConfidence, 'Avg Confidence')
+    + stat('📔', totalEntries, 'Journal Entries');
+
+  // Songs
+  if (songData && songData.length) {
+    document.getElementById('dashSongs').innerHTML = songData.map(function(s){
+      const stars = '⭐'.repeat(s.confidence||0) + '☆'.repeat(5-(s.confidence||0));
+      const statusMap = {learning:'🌱 Learning',polishing:'✨ Polishing',performance:'🎭 Performance Ready'};
+      return '<div class="song-dash-row">'
+        +'<div><div class="song-dash-name">🎵 '+s.title+(s.artist?' <span class="song-dash-meta">— '+s.artist+'</span>':'')+'</div>'
+        +'<div class="song-dash-meta">'+(statusMap[s.status]||s.status)+'</div>'
+        +(s.notes?'<div class="song-dash-meta" style="margin-top:3px;font-style:italic;">'+s.notes.slice(0,80)+(s.notes.length>80?'…':'')+'</div>':'')
+        +'</div>'
+        +'<div style="font-size:1.1rem;letter-spacing:1px;">'+stars+'</div>'
+        +'</div>';
+    }).join('');
+  } else {
+    document.getElementById('dashSongs').innerHTML = '<div class="no-entries">No songs tracked yet.</div>';
+  }
+
+  // Journal entries
+  if (journals && journals.length) {
+    document.getElementById('dashJournal').innerHTML = journals.map(function(e){
+      return '<div class="dash-entry">'
+        +'<div class="dash-entry-date">📅 '+e.display_date+'</div>'
+        +(e.mood?'<div class="dash-entry-mood">'+e.mood+'</div>':'')
+        +'<div class="dash-entry-text">'+e.text.replace(/\n/g,'<br>')+'</div>'
+        +'</div>';
+    }).join('');
+  } else {
+    document.getElementById('dashJournal').innerHTML = '<div class="no-entries">No journal entries yet.</div>';
+  }
+
+  // Check-ins
+  if (checkins && checkins.length) {
+    document.getElementById('dashCheckins').innerHTML = checkins.map(function(c){
+      const d = new Date(c.checkin_date);
+      const label = d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div class="checkin-row">'
+        +'<div><div class="checkin-date">✅ '+label+'</div>'
+        +'<div class="checkin-tasks">Practiced "'+c.song_practiced+'" for '+c.minutes_practiced+' mins'
+        +' · '+c.tasks_completed+'/'+c.tasks_total+' tasks done</div>'
+        +'</div></div>';
+    }).join('');
+  } else {
+    document.getElementById('dashCheckins').innerHTML = '<div class="no-entries">No check-ins yet.</div>';
+  }
+}
+
+function stat(emoji, val, label) {
+  return '<div class="stat-card"><div class="stat-number">'+val+'</div><div style="font-size:1.3rem;">'+emoji+'</div><div class="stat-label">'+label+'</div></div>';
+}
+
+init();
+</script>
+
+<!-- ══════════════════════════════════════════════════
+     SQL TO PASTE INTO SUPABASE SQL EDITOR
+     (shown as a hidden comment — copy from source)
+
+CREATE TABLE IF NOT EXISTS journal_entries (
+  id            bigserial PRIMARY KEY,
+  entry_date    timestamptz NOT NULL DEFAULT now(),
+  display_date  text,
+  text          text NOT NULL,
+  mood          text
+);
+
+CREATE TABLE IF NOT EXISTS songs (
+  id         bigserial PRIMARY KEY,
+  song_id    bigint UNIQUE NOT NULL,
+  title      text NOT NULL,
+  artist     text,
+  status     text DEFAULT 'learning',
+  link       text,
+  confidence int  DEFAULT 0,
+  notes      text,
+  updated_at timestamptz DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS checkins (
+  id                 bigserial PRIMARY KEY,
+  checkin_date       timestamptz NOT NULL DEFAULT now(),
+  song_practiced     text,
+  minutes_practiced  int,
+  tasks_completed    int,
+  tasks_total        int
+);
+
+-- Allow public (anon) inserts and reads:
+ALTER TABLE journal_entries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE songs           ENABLE ROW LEVEL SECURITY;
+ALTER TABLE checkins        ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "allow_all_journal"  ON journal_entries FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "allow_all_songs"    ON songs           FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "allow_all_checkins" ON checkins        FOR ALL USING (true) WITH CHECK (true);
+
+══════════════════════════════════════════════════ -->
+</body>
+</html>
