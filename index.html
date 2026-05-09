@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
   <title>🎀 Annabelle's Vocal Practice Studio 🎀</title>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Cookie&display=swap" rel="stylesheet"/>
   <style>
@@ -146,12 +146,40 @@
     .sheets-banner a:hover{text-decoration:underline;}
 
     footer{text-align:center;font-size:.8rem;color:#c097c8;margin-top:28px;}
-    @media(max-width:520px){
-      header h1{font-size:1.7rem;}
-      .timer-display{font-size:2.4rem;}
-      .timer-circle-outer{width:155px;height:155px;}
-      .tab-btn{font-size:.75rem;padding:8px 5px;}
-    }
+@media(max-width:600px){
+  header h1{font-size:1.5rem;}
+  header .mascot{font-size:2.6rem;}
+  .tab-bar{gap:5px;}
+  .tab-btn{font-size:.72rem;padding:8px 4px;min-width:0;border-radius:12px;}
+  .card{padding:16px 14px;}
+  .card-title{font-size:.95rem;}
+  .timer-display{font-size:2.2rem;}
+  .timer-circle-outer{width:150px;height:150px;}
+  .timer-controls{gap:6px;}
+  .btn{padding:8px 12px;font-size:.82rem;}
+  .btn-sm{padding:5px 10px;font-size:.76rem;}
+  .form-tab-bar{gap:5px;}
+  .form-tab-btn{font-size:.78rem;padding:8px 6px;}
+  .add-task-row{flex-direction:column;}
+  .add-task-input{width:100%;}
+  .form-row{flex-direction:column;}
+  .form-input,.form-select{min-width:0;width:100%;}
+  .song-card{padding:12px 13px;}
+  .star-btn{font-size:1.2rem;}
+  .progress-row{gap:5px;}
+  .day-dot{width:30px;height:30px;font-size:.72rem;}
+  .sheets-banner{padding:10px 12px;font-size:.8rem;}
+  .date-strip{font-size:.82rem;}
+  .task-label{font-size:.88rem;}
+  .form-container iframe{min-height:600px;}
+}
+
+@media(max-width:380px){
+  .tab-btn{font-size:.65rem;padding:7px 3px;}
+  header h1{font-size:1.3rem;}
+  .timer-display{font-size:1.9rem;}
+  .timer-circle-outer{width:130px;height:130px;}
+}
   </style>
 </head>
 <body>
