@@ -863,7 +863,6 @@ function renderSchedule() {
             + (isToday ? '📍 ' : '') + day.slice(0,3).toUpperCase()
             + '</span>'
             + (isToday ? '<br><span style="font-size:.7rem;background:var(--pink);color:#fff;border-radius:8px;padding:1px 7px;">Today</span>' : '')
-            + (isToday && (hasMain || hasSecond) ? '<br><button class="btn btn-pink btn-sm" style="margin-top:5px;font-size:.7rem;padding:3px 8px;" onclick="applyTodaysSongs()">✨ Load</button>' : '')
             + '</td>'
             // Main song cell
             + '<td style="' + cellStyle + 'background:' + rowBg + ';border-top:' + rowBorder + ';border-bottom:' + rowBorder + ';border-left:none;border-right:none;">'
