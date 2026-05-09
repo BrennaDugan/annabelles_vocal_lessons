@@ -218,8 +218,14 @@
       <div class="card-title">⏱️ Practice Timer <span class="badge" id="timerBadge">20 min</span></div>
       <div class="song-selector">
         <label>🎵 Currently practicing:</label>
-        <select class="song-select" id="songSelect"><option value="Free Practice">🎤 Free Practice</option></select>
-      </div>
+<select class="song-select" id="songSelect" onchange="handleSongSelectChange(this.value)">
+  <option value="Free Practice" data-minutes="20">🎤 Free Practice — 20 min</option>
+  <option value="Warm-Up Exercises" data-minutes="5">🎵 Warm-Up Exercises — 5 min</option>
+  <option value="Breathing Technique Practice" data-minutes="5">🎶 Breathing Technique Practice — 5 min</option>
+  <option value="Main Song" data-minutes="15">🌟 Main Song — 15 min</option>
+  <option value="Second Song" data-minutes="15">🎤 Second Song — 15 min</option>
+  <option value="Cool Down and Reflection" data-minutes="5">💫 Cool Down & Reflect — 5 min</option>
+</select>
       <div class="timer-wrap">
         <div class="timer-circle-outer">
           <svg class="ring-svg" viewBox="0 0 180 180">
@@ -540,7 +546,13 @@ function goToJournal() {
 // ── SONG SELECT ─────────────────────────────────────
 function updateSongSelect() {
   var sel = document.getElementById('songSelect'), cur = sel.value;
-  sel.innerHTML = '<option value="Free Practice">🎤 Free Practice</option>';
+  sel.innerHTML = ''
+    + '<option value="Free Practice" data-minutes="20">🎤 Free Practice — 20 min</option>'
+    + '<option value="Warm-Up Exercises" data-minutes="5">🎵 Warm-Up Exercises — 5 min</option>'
+    + '<option value="Breathing Technique Practice" data-minutes="5">🎶 Breathing Technique Practice — 5 min</option>'
+    + '<option value="Main Song" data-minutes="15">🌟 Main Song — 15 min</option>'
+    + '<option value="Second Song" data-minutes="15">🎤 Second Song — 15 min</option>'
+    + '<option value="Cool Down and Reflection" data-minutes="5">💫 Cool Down & Reflect — 5 min</option>';
   tasks.forEach(function(t){
     var o = document.createElement('option'); o.value = t.label; o.textContent = t.label; sel.appendChild(o);
   });
@@ -630,7 +642,18 @@ function renderWeek() {
     wrap.appendChild(dot);
   });
 }
-
+function handleSongSelectChange(val) {
+  var sel = document.getElementById('songSelect');
+  var selected = sel.options[sel.selectedIndex];
+  var mins = selected.getAttribute('data-minutes');
+  if (mins) {
+    practiceMin = parseInt(mins);
+    timerTotal = practiceMin * 60;
+    timerLeft = timerTotal;
+    document.getElementById('timerBadge').textContent = practiceMin + ' min';
+    resetTimer();
+  }
+}
 // ── NOTES ───────────────────────────────────────────
 function saveNote() {
   notes=document.getElementById('noteArea').value;
