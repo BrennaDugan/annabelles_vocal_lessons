@@ -477,15 +477,16 @@ function clearLink(i) { tasks[i].link = ''; saveTasks(); renderTasks(); }
 function toggleTask(i) {
   tasks[i].done = !tasks[i].done; saveTasks(); renderTasks();
   if (tasks[i].isJournal && tasks[i].done) {
-  setTimeout(function(){
-    switchTab('journal', document.getElementById('tbtn-journal'));
-  }, 250);
-}
- if (tasks.every(function(t){ return t.done; }) && tasks.length) {
-  setTimeout(function(){
-    alert('🌟 All tasks done! Amazing session today! 🎉');
-    switchTab('checkin', document.getElementById('tbtn-checkin'));
-  }, 350);
+    setTimeout(function(){
+      switchTab('journal', document.getElementById('tbtn-journal'));
+    }, 250);
+  }
+  if (tasks.every(function(t){ return t.done; }) && tasks.length) {
+    setTimeout(function(){
+      alert('🌟 All tasks done! Amazing session today! 🎉');
+      switchTab('checkin', document.getElementById('tbtn-checkin'));
+    }, 350);
+  }
 }
 function addTask() {
   var inp = document.getElementById('newTaskInput'), val = inp.value.trim();
