@@ -388,6 +388,12 @@ const DEFAULT_TASKS = [
 ];
 
 let tasks        = JSON.parse(localStorage.getItem('vp_tasks5')) || DEFAULT_TASKS.map(function(t){ return Object.assign({},t); });
+
+// Always hardcode links for warm-up and breathing
+tasks.forEach(function(t) {
+  if (t.label.startsWith('🎵')) t.link = 'https://www.youtube.com/watch?v=YCLyAmXtpfY';
+  if (t.label.startsWith('🎶')) t.link = 'https://www.youtube.com/watch?v=lNhnpCsoGdQ';
+});
 let notes        = localStorage.getItem('vp_notes')   || '';
 let weekData     = JSON.parse(localStorage.getItem('vp_week'))   || {};
 let practiceMin  = parseInt(localStorage.getItem('vp_minutes'))  || 20;
@@ -452,6 +458,11 @@ function saveTasks() {
 }
 
 function renderTasks() {
+  // always keep warm-up and breathing links hardcoded
+  tasks.forEach(function(t) {
+    if (t.label.startsWith('🎵')) t.link = 'https://www.youtube.com/watch?v=YCLyAmXtpfY';
+    if (t.label.startsWith('🎶')) t.link = 'https://www.youtube.com/watch?v=lNhnpCsoGdQ';
+  });
   var ul = document.getElementById('taskList');
   if (!ul) return;
   ul.innerHTML = '';
