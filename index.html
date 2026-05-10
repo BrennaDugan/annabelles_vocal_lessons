@@ -371,7 +371,9 @@
         <button class="btn btn-lavender btn-sm" onclick="toggleScheduleEdit()">✏️ Edit Schedule (Teacher)</button>
         <span id="schedEditNote" style="font-size:.76rem;color:#c4a0cc;margin-left:8px;font-weight:600;"></span>
       </div>
-      <div id="scheduleView"></div>
+     <div id="scheduleView"></div>
+<div id="schedDebug" style="margin-top:12px;font-size:.75rem;color:#b08fbc;background:#f9f0ff;border-radius:10px;padding:10px 12px;display:none;"></div>
+<button class="btn btn-yellow btn-sm" style="margin-top:8px;" onclick="showDebug()">🔍 Debug Schedule</button>
     </div>
   </div>
 
@@ -843,7 +845,23 @@ function renderSchedule(){
 }
 
 // ── START APP ────────────────────────────────────────
-function startApp() {
+function showDebug() {
+  var el = document.getElementById('schedDebug');
+  el.style.display = 'block';
+  var raw = localStorage.getItem('vp_schedule');
+  var lines = [];
+  lines.push('localStorage available: ' + (typeof localStorage !== 'undefined'));
+  lines.push('vp_schedule raw: ' + (raw ? raw.slice(0,200) : 'NULL — nothing saved'));
+  lines.push('schedule in memory:');
+  DAYS_OF_WEEK.forEach(function(day){
+    var s = schedule[day];
+    if (s && (s.main || s.second)) {
+      lines.push('  '+day+': main="'+s.main+'" second="'+s.second+'"');
+    }
+  });
+  el.innerHTML = lines.join('<br>');
+}
+  function startApp() {
   loadSchedule();   // load saved schedule first
   init();           // render everything
   renderSchedule(); // draw the schedule table
