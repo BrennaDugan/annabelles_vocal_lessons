@@ -54,9 +54,9 @@
     .task-actions{display:flex;gap:4px;flex-shrink:0;}
     .btn-icon{background:none;border:none;cursor:pointer;font-size:.9rem;opacity:.5;transition:opacity .15s;padding:4px;-webkit-tap-highlight-color:transparent;}
     .btn-icon:hover{opacity:1;}
-    .task-link-row{display:flex;align-items:center;gap:7px;margin-top:6px;padding-left:35px;flex-wrap:wrap;}
-    .task-link-input{flex:1;min-width:0;font-size:.8rem;border:1.5px solid var(--pink-lt);border-radius:8px;padding:5px 9px;font-family:'Comfortaa',sans-serif;outline:none;color:var(--text);background:#fff7fa;}
-    .task-link-anchor{font-size:.8rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:4px 10px;border:1.5px solid var(--pink-lt);white-space:nowrap;}
+    .task-link-row{display:flex;align-items:center;gap:7px;margin-top:8px;padding-left:35px;flex-wrap:wrap;}
+    .task-link-input{flex:1;min-width:0;font-size:.88rem;border:1.5px solid var(--pink-lt);border-radius:8px;padding:9px 10px;font-family:'Comfortaa',sans-serif;outline:none;color:var(--text);background:#fff7fa;-webkit-appearance:none;}
+    .task-link-anchor{font-size:.8rem;font-weight:700;color:var(--pink);text-decoration:none;background:#fff0f7;border-radius:8px;padding:8px 12px;border:1.5px solid var(--pink-lt);white-space:nowrap;display:inline-block;min-height:36px;line-height:1.4;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
     .task-link-anchor:hover{background:var(--pink-lt);}
     .task-input{flex:1;min-width:0;border:1.5px solid var(--pink);border-radius:10px;padding:5px 10px;font-family:'Comfortaa',sans-serif;font-size:.9rem;font-weight:700;color:var(--text);outline:none;background:#fff7fa;}
 
@@ -366,14 +366,11 @@
   <div id="tab-schedule" class="tab-panel">
     <div class="card">
       <div class="card-title">📅 Your Weekly Practice Schedule</div>
-      <p style="font-size:.82rem;color:#b08fbc;font-weight:600;margin-bottom:14px;">Your teacher sets your songs for each day. They update your Practice tasks automatically! 🌸</p>
-      <div style="margin-bottom:14px;">
-        <button class="btn btn-lavender btn-sm" onclick="toggleScheduleEdit()">✏️ Edit Schedule (Teacher)</button>
-        <span id="schedEditNote" style="font-size:.76rem;color:#c4a0cc;margin-left:8px;font-weight:600;"></span>
+      <p style="font-size:.82rem;color:#b08fbc;font-weight:600;margin-bottom:14px;">Updated by your teacher each week. Refreshes automatically when you open the page! 🌸</p>
+      <div style="margin-bottom:12px;">
+        <button class="btn btn-lavender btn-sm" onclick="loadSchedule(function(){renderSchedule();applyTodaysSongs();})">🔄 Refresh Schedule</button>
       </div>
-     <div id="scheduleView"></div>
-<div id="schedDebug" style="margin-top:12px;font-size:.75rem;color:#b08fbc;background:#f9f0ff;border-radius:10px;padding:10px 12px;display:none;"></div>
-<button class="btn btn-yellow btn-sm" style="margin-top:8px;" onclick="showDebug()">🔍 Debug Schedule</button>
+      <div id="scheduleView"></div>
     </div>
   </div>
 
@@ -728,44 +725,55 @@ function renderSongs(){
   }).join('');
 }
 
-// ── SCHEDULE ─────────────────────────────────────────
-function saveSchedule() {
-  try {
-    var data = JSON.stringify(schedule);
-    localStorage.setItem('vp_schedule', data);
-    // double-write for mobile Safari reliability
-    setTimeout(function() {
-      try { localStorage.setItem('vp_schedule', data); } catch(e){}
-    }, 50);
-  } catch(e) {
-    console.warn('Schedule save failed:', e);
-  }
+// ── SCHEDULE — Google Sheets powered ─────────────────
+var SHEET_CSV = 'https://corsproxy.io/?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vSP0CcYJ0sz-D1X93YfzIuOORcftLb3yJr9ie6gU-hoknGfwVLYDY7rMvEEadY3VTdOHQl20v_8CTB4/pub?gid=0&single=true&output=csv');
+
+function parseCSV(text) {
+  var lines = text.trim().split(/\r?\n/);
+  lines.shift();
+  lines.forEach(function(line) {
+    var cols = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    cols.push(cur.trim());
+    var day = cols[0] ? cols[0].trim() : '';
+    if (schedule.hasOwnProperty(day)) {
+      schedule[day] = {
+        main:   cols[1] ? cols[1].trim() : '',
+        second: cols[2] ? cols[2].trim() : '',
+        pdf:    cols[3] ? cols[3].trim() : '',
+        pdf2:   cols[4] ? cols[4].trim() : ''
+      };
+    }
+  });
 }
 
-function loadSchedule() {
-  try {
-    var stored = localStorage.getItem('vp_schedule');
-    if (stored) {
-      var parsed = JSON.parse(stored);
-      DAYS_OF_WEEK.forEach(function(day) {
-        if (parsed[day]) {
-          schedule[day] = Object.assign({main:'',second:'',pdf:'',pdf2:''}, parsed[day]);
+function loadSchedule(callback) {
+  var wrap = document.getElementById('scheduleView');
+  if (wrap) wrap.innerHTML = '<div style="text-align:center;color:#b08fbc;font-size:.85rem;padding:20px 0;">🌸 Loading your schedule…</div>';
+  var directUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSP0CcYJ0sz-D1X93YfzIuOORcftLb3yJr9ie6gU-hoknGfwVLYDY7rMvEEadY3VTdOHQl20v_8CTB4/pub?gid=0&single=true&output=csv';
+  var proxyUrl  = 'https://corsproxy.io/?' + encodeURIComponent(directUrl);
+
+  function tryFetch(url, fallback) {
+    fetch(url, {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('bad'); return r.text(); })
+      .then(function(text){ parseCSV(text); if(callback) callback(); })
+      .catch(function(){
+        if (fallback) { tryFetch(fallback, null); }
+        else {
+          if (wrap) wrap.innerHTML = '<div style="text-align:center;color:#c4a0cc;font-size:.84rem;padding:20px 0;">⚠️ Could not load schedule — check your internet and refresh. 🌸</div>';
         }
       });
-    }
-  } catch(e) {
-    console.warn('Schedule load failed:', e);
   }
+  tryFetch(proxyUrl, directUrl);
 }
 
 function toggleScheduleEdit() {
-  if(!scheduleEditMode){
-    var pw=prompt('🔐 Enter teacher password to edit the schedule:');
-    if(pw!=='55Kempo11!'){ alert('❌ Incorrect password!'); return; }
-  }
-  scheduleEditMode=!scheduleEditMode;
-  document.getElementById('schedEditNote').textContent=scheduleEditMode?'🔓 Editing — tap outside each field to save':'';
-  renderSchedule();
+  alert('✏️ To edit the schedule, update your Google Sheet — changes appear automatically when Annabelle refreshes the page!');
 }
 
 function getTodayName(){
@@ -785,29 +793,7 @@ function renderSchedule(){
   var today=getTodayName();
   var wrap=document.getElementById('scheduleView');
   if(!wrap) return;
-
-  if(scheduleEditMode){
-    wrap.innerHTML=DAYS_OF_WEEK.map(function(day){
-      var s=schedule[day]||{main:'',second:'',pdf:'',pdf2:''};
-      var isToday=day===today;
-      var bg=isToday?'linear-gradient(90deg,#fff0f8,#f3eeff)':'#fafafa';
-      var border=isToday?'2px solid var(--pink)':'1.5px solid #f0ddf5';
-      var inp='border:2px solid var(--pink-lt);border-radius:10px;padding:10px 11px;font-family:\'Comfortaa\',sans-serif;font-size:.88rem;color:var(--text);background:#fff7fa;outline:none;width:100%;margin-top:8px;-webkit-appearance:none;';
-      return '<div style="background:'+bg+';border-radius:14px;padding:13px 14px;margin-bottom:9px;border:'+border+';">'
-        +'<div style="font-weight:700;font-size:.92rem;margin-bottom:6px;color:var(--text);">'
-        +(isToday?'📍 ':'')+day+(isToday?' <span style="font-size:.72rem;background:var(--pink);color:#fff;border-radius:8px;padding:1px 8px;">Today</span>':'')
-        +'</div>'
-        +'<input style="'+inp+'" placeholder="🌟 Main Song" value="'+(s.main||'')+'"'
-        +' onblur="schedule[\''+day+'\'].main=this.value;saveSchedule();" />'
-        +'<input style="'+inp+'" placeholder="🎤 Second Song" value="'+(s.second||'')+'"'
-        +' onblur="schedule[\''+day+'\'].second=this.value;saveSchedule();" />'
-        +'<input style="'+inp+'" placeholder="📄 Main Song PDF or URL (optional)" value="'+(s.pdf||'')+'"'
-        +' onblur="schedule[\''+day+'\'].pdf=this.value;saveSchedule();" />'
-        +'<input style="'+inp+'" placeholder="📄 Second Song PDF or URL (optional)" value="'+(s.pdf2||'')+'"'
-        +' onblur="schedule[\''+day+'\'].pdf2=this.value;saveSchedule();" />'
-        +'</div>';
-    }).join('');
-  } else {
+  {
     var thS='text-align:left;font-size:.72rem;font-weight:700;color:#b08fbc;padding:3px 9px;';
     var html='<div class="sched-table-wrap"><table class="sched-table"><thead><tr>'
       +'<th style="'+thS+'">DAY</th>'
@@ -845,30 +831,15 @@ function renderSchedule(){
 }
 
 // ── START APP ────────────────────────────────────────
-function showDebug() {
-  var el = document.getElementById('schedDebug');
-  el.style.display = 'block';
-  var raw = localStorage.getItem('vp_schedule');
-  var lines = [];
-  lines.push('localStorage available: ' + (typeof localStorage !== 'undefined'));
-  lines.push('vp_schedule raw: ' + (raw ? raw.slice(0,200) : 'NULL — nothing saved'));
-  lines.push('schedule in memory:');
-  DAYS_OF_WEEK.forEach(function(day){
-    var s = schedule[day];
-    if (s && (s.main || s.second)) {
-      lines.push('  '+day+': main="'+s.main+'" second="'+s.second+'"');
-    }
+function startApp() {
+  init();
+  // Load schedule from Google Sheets, then render + apply
+  loadSchedule(function() {
+    renderSchedule();
+    applyTodaysSongs();
   });
-  el.innerHTML = lines.join('<br>');
-}
-  function startApp() {
-  loadSchedule();   // load saved schedule first
-  init();           // render everything
-  renderSchedule(); // draw the schedule table
-  applyTodaysSongs(); // update tasks with today's songs
 }
 
-// Safe cross-browser startup
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', startApp);
 } else {
