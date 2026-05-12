@@ -324,39 +324,25 @@
   <!-- ══════════ SONGS ══════════ -->
   <div id="tab-songs" class="tab-panel">
     <div class="card">
-      <div class="card-title">🎶 Song Tracker</div>
+      <div class="card-title">🎶 My Song List</div>
       <div class="form-tab-bar">
-        <button class="form-tab-btn active" id="sftbtn-tracker" onclick="switchFormTab('songs','tracker',this)">🎵 My Song List</button>
-        <button class="form-tab-btn"        id="sftbtn-log"     onclick="switchFormTab('songs','log',this)">📊 Log to Teacher</button>
+        <button class="form-tab-btn active" id="sftbtn-tracker" onclick="switchFormTab('songs','tracker',this)">🎵 Songs</button>
+        <button class="form-tab-btn"        id="sftbtn-log"     onclick="switchFormTab('songs','log',this)">📊 Rate a Song</button>
       </div>
+
+      <!-- TEACHER SONG LIST -->
       <div id="songs-form-tracker" class="form-panel active">
-        <p class="form-desc">Track every song you're working on. Use "Log to Teacher" to send confidence ratings! 🌸</p>
-        <div class="add-song-form">
-          <div style="font-weight:700;font-size:.9rem;margin-bottom:10px;color:var(--text);">➕ Add a New Song</div>
-          <div class="form-row">
-            <input class="form-input" id="newSongTitle"  placeholder="🎵 Song Title"/>
-            <input class="form-input" id="newSongArtist" placeholder="🎤 Artist (optional)"/>
-          </div>
-          <div class="form-row">
-            <select class="form-select" id="newSongStatus">
-              <option value="learning">🌱 Learning</option>
-              <option value="polishing">✨ Polishing</option>
-              <option value="performance">🎭 Performance Ready</option>
-            </select>
-            <input class="form-input" id="newSongLink" placeholder="🔗 Resource URL (optional)"/>
-          </div>
-          <button class="btn btn-pink" onclick="addSong()">🎶 Add Song</button>
-        </div>
-        <div class="songs-grid" id="songsGrid">
-          <div style="text-align:center;color:#c4a0cc;font-size:.86rem;padding:16px 0;" id="noSongs">No songs yet — add your first one above! 🎵</div>
-        </div>
+        <p class="form-desc">Your teacher's current song list. Tap ⭐ to rate your confidence, then use "Rate a Song" to send it! 🌸</p>
+        <div class="songs-grid" id="songsGrid"></div>
       </div>
+
+      <!-- GOOGLE FORM: RATE A SONG -->
       <div id="songs-form-log" class="form-panel">
-        <div class="sheets-banner">📊 Use this form to send your song confidence update directly to your teacher! 🎤</div>
-        <p class="form-desc">Fill this out whenever your confidence on a song changes!</p>
+        <div class="sheets-banner">📊 Rate your confidence on a song and send it straight to your teacher! 🎤</div>
+        <p class="form-desc">Fill this out after practice whenever your confidence changes!</p>
         <div class="form-container">
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfQHEZqm8kMZP_mKq_geg4ZuZWoussUyE-ty5z8FIMMaPfCEg/viewform?embedded=true"
-            height="1214" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            height="1476" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
         </div>
       </div>
     </div>
@@ -545,9 +531,9 @@ function updateSongSelect() {
     if(isDupe) return;
     var o=document.createElement('option'); o.value=t.label; o.textContent=t.label; sel.appendChild(o);
   });
-  songs.forEach(function(s){
+  TEACHER_SONGS.forEach(function(s){
     if(tasks.some(function(t){ return t.label.toLowerCase().includes(s.title.toLowerCase()); })) return;
-    var o=document.createElement('option'); o.value=s.title; o.textContent='🎵 '+s.title; sel.appendChild(o);
+    var o=document.createElement('option'); o.value=s.title; o.textContent=s.icon+' '+s.title; sel.appendChild(o);
   });
   if([...sel.options].some(function(o){ return o.value===cur; })) sel.value=cur;
 }
@@ -674,67 +660,74 @@ function renderLocalJournal() {
 }
 
 // ── SONGS ────────────────────────────────────────────
-function saveSongs(){ localStorage.setItem('vp_songs',JSON.stringify(songs)); updateSongSelect(); }
-function addSong() {
-  var title=document.getElementById('newSongTitle').value.trim();
-  var artist=document.getElementById('newSongArtist').value.trim();
-  var status=document.getElementById('newSongStatus').value;
-  var link=document.getElementById('newSongLink').value.trim();
-  if(!title){ alert('🎵 Please enter a song title!'); return; }
-  if(link&&!link.startsWith('http')) link='https://'+link;
-  songs.push({id:Date.now(),title:title,artist:artist,status:status,link:link,confidence:0,notes:''});
-  ['newSongTitle','newSongArtist','newSongLink'].forEach(function(id){ document.getElementById(id).value=''; });
-  document.getElementById('newSongStatus').value='learning';
-  saveSongs(); renderSongs();
+// Teacher's song list — edit titles/icons here and re-upload to update
+var TEACHER_SONGS = [
+  { id:1,  title:'All of Me',              icon:'🎵' },
+  { id:2,  title:'Traitor',                icon:'🎶' },
+  { id:3,  title:'Somewhere Only We Know', icon:'🌟' },
+  { id:4,  title:'Country Roads',          icon:'🎼' },
+  { id:5,  title:'Baby (with Ludacris)',   icon:'🎤' },
+  { id:6,  title:"Driver's License",       icon:'💫' },
+  { id:7,  title:'Count On Me',            icon:'🎀' },
+  { id:8,  title:'Talking to the Moon',    icon:'🌙' },
+  { id:9,  title:'Anti-Hero',              icon:'🌸' },
+  { id:10, title:'Golden',                 icon:'✨' },
+  { id:11, title:"It's So Easy",           icon:'🎶' },
+];
+
+var CONFIDENCE_LABELS = [
+  '',
+  '⭐ Just starting out',
+  '⭐⭐ Getting familiar',
+  '⭐⭐⭐ Feeling comfortable',
+  '⭐⭐⭐⭐ Sounding good',
+  '⭐⭐⭐⭐⭐ Performance ready'
+];
+
+// Ratings stored locally just for display — submitted via Google Form
+var songRatings = {};
+try { songRatings = JSON.parse(localStorage.getItem('vp_ratings')) || {}; } catch(e) {}
+
+function saveSongRatings() {
+  try { localStorage.setItem('vp_ratings', JSON.stringify(songRatings)); } catch(e) {}
 }
-function deleteSong(id){ songs=songs.filter(function(s){ return s.id!==id; }); saveSongs(); renderSongs(); }
-function setSongConfidence(id,stars){ var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.confidence=stars; saveSongs(); renderSongs(); }
-function setSongStatus(id,val){ var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.status=val; saveSongs(); renderSongs(); }
-function setSongNotes(id,val){ var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.notes=val; saveSongs(); }
-function setSongLink(id,val){
-  val=val.trim(); if(val&&!val.startsWith('http')) val='https://'+val;
-  var s=songs.find(function(s){ return s.id===id; }); if(!s) return; s.link=val; saveSongs(); renderSongs();
+
+function setSongConfidence(id, stars) {
+  songRatings[id] = stars;
+  saveSongRatings();
+  renderSongs();
 }
-function renderSongs(){
-  var grid=document.getElementById('songsGrid'), noMsg=document.getElementById('noSongs');
-  if(!grid) return;
-  if(!songs.length){ grid.innerHTML=''; grid.appendChild(noMsg); noMsg.style.display='block'; return; }
-  noMsg.style.display='none';
-  var icons=['🎵','🎶','🎼','🎤','🌟','💫','🎀','🌸'];
-  var statusMap={learning:'🌱 Learning',polishing:'✨ Polishing',performance:'🎭 Ready'};
-  grid.innerHTML=songs.map(function(s){
-    var icon=icons[s.id%icons.length];
-    var stars=[1,2,3,4,5].map(function(n){
-      return '<button class="star-btn" onclick="setSongConfidence('+s.id+','+n+')">'+(n<=s.confidence?'⭐':'☆')+'</button>';
+
+function renderSongs() {
+  var grid = document.getElementById('songsGrid');
+  if (!grid) return;
+  grid.innerHTML = TEACHER_SONGS.map(function(s) {
+    var rating = songRatings[s.id] || 0;
+    var stars = [1,2,3,4,5].map(function(n) {
+      return '<button class="star-btn" onclick="setSongConfidence('+s.id+','+n+')" title="'+CONFIDENCE_LABELS[n]+'">'
+        + (n <= rating ? '⭐' : '☆') + '</button>';
     }).join('');
-    var statusOpts=['learning','polishing','performance'].map(function(v){
-      return '<option value="'+v+'"'+(s.status===v?' selected':'')+'>'+{learning:'🌱 Learning',polishing:'✨ Polishing',performance:'🎭 Performance Ready'}[v]+'</option>';
-    }).join('');
-    var linkSection=s.link
-      ?'<div style="margin-top:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;">'
-        +'<a class="task-link-anchor" href="'+s.link+'" target="_blank" rel="noopener">🔗 Open Resource</a>'
-        +'<button class="btn-icon" onclick="setSongLink('+s.id+',\'\')" title="Remove">✕</button></div>'
-      :'<input class="song-link-field" placeholder="🔗 Paste resource URL…"'
-        +' onblur="setSongLink('+s.id+',this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" />';
+    var labelHtml = rating > 0
+      ? '<div style="font-size:.76rem;color:#9b6ea0;font-weight:700;margin-top:5px;">'+CONFIDENCE_LABELS[rating]+'</div>'
+      : '<div style="font-size:.76rem;color:#ccc;margin-top:5px;">Tap stars to rate your confidence</div>';
     return '<div class="song-card">'
-      +'<div class="song-card-top"><div class="song-icon">'+icon+'</div>'
-      +'<div class="song-info"><div class="song-title-row">'
-      +'<span class="song-name">'+s.title+'</span>'
-      +(s.artist?'<span class="song-artist">— '+s.artist+'</span>':'')
-      +'<span class="song-status-badge '+s.status+'">'+statusMap[s.status]+'</span>'
-      +'</div></div></div>'
-      +'<div class="confidence-row"><div class="confidence-label">My Confidence Level:</div>'
-      +'<div class="star-row">'+stars+'</div></div>'
-      +'<select class="form-select" style="margin-top:8px;width:100%;" onchange="setSongStatus('+s.id+',this.value)">'+statusOpts+'</select>'
-      +linkSection
-      +'<textarea class="song-notes-field" placeholder="Notes: tricky parts, teacher tips, lyrics to memorize…"'
-      +' onblur="setSongNotes('+s.id+',this.value)">'+(s.notes||'')+'</textarea>'
-      +'<div class="song-actions-row">'
-      +'<button class="btn btn-pink btn-sm" onclick="deleteSong('+s.id+')">🗑️ Remove</button>'
-      +'<button class="btn btn-lavender btn-sm" onclick="switchFormTab(\'songs\',\'log\',document.getElementById(\'sftbtn-log\'))">📊 Log to Teacher</button>'
-      +'</div></div>';
+      + '<div class="song-card-top">'
+      + '<div class="song-icon">'+s.icon+'</div>'
+      + '<div class="song-info"><div class="song-title-row">'
+      + '<span class="song-name">'+s.title+'</span>'
+      + '</div></div></div>'
+      + '<div class="confidence-row">'
+      + '<div class="confidence-label">My Confidence:</div>'
+      + '<div class="star-row">'+stars+'</div>'
+      + labelHtml
+      + '</div>'
+      + '<div class="song-actions-row" style="margin-top:10px;">'
+      + '<button class="btn btn-lavender btn-sm" onclick="switchFormTab(\'songs\',\'log\',document.getElementById(\'sftbtn-log\'))">📊 Rate &amp; Send to Teacher</button>'
+      + '</div></div>';
   }).join('');
 }
+
+function saveSongs(){ updateSongSelect(); }
 
 // ── SCHEDULE — Google Sheets powered ─────────────────
 var SHEET_CSV = 'https://corsproxy.io/?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vSP0CcYJ0sz-D1X93YfzIuOORcftLb3yJr9ie6gU-hoknGfwVLYDY7rMvEEadY3VTdOHQl20v_8CTB4/pub?gid=0&single=true&output=csv');
